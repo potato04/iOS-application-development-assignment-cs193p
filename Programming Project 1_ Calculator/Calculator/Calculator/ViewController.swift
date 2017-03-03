@@ -13,6 +13,7 @@ class ViewController: UIViewController {
   @IBOutlet weak var display: UILabel!
   
   var userIsInTheMiddleOfTyping = false
+  
   var displayValue: Double {
     get {
       return Double(display.text!)!
@@ -21,6 +22,8 @@ class ViewController: UIViewController {
       display.text = String(newValue)
     }
   }
+  
+  private var brain = CalclatorBrain()
   
   @IBAction func touchDigit(_ sender: UIButton) {
     let digit = sender.currentTitle!
@@ -34,16 +37,16 @@ class ViewController: UIViewController {
   }
   
   @IBAction func performOperation(_ sender: UIButton) {
-    userIsInTheMiddleOfTyping = false
+    if userIsInTheMiddleOfTyping {
+      brain.setOperand(displayValue)
+      userIsInTheMiddleOfTyping = false
+    }
+
     if let mathematicalSymbol = sender.currentTitle {
-      switch mathematicalSymbol {
-      case "π":
-        displayValue = Double.pi
-      case "√":
-        displayValue = sqrt(displayValue)
-      default:
-        break
-      }
+      brain.performOperation(mathematicalSymbol)
+    }
+    if let result = brain.result {
+      displayValue = result
     }
   }
   
