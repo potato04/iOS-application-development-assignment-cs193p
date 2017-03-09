@@ -11,6 +11,12 @@ import UIKit
 class ViewController: UIViewController {
   
   @IBOutlet weak var display: UILabel!
+  @IBOutlet weak var descriptionDisplay: UILabel!
+  
+  override func viewDidLoad() {
+    descriptionDisplay.text = " "
+  }
+  
   
   var userIsInTheMiddleOfTyping = false
   
@@ -29,7 +35,13 @@ class ViewController: UIViewController {
     let digit = sender.currentTitle!
     if userIsInTheMiddleOfTyping {
       let textCurrentlyInDisplay = display.text!
-      display.text = textCurrentlyInDisplay + digit
+      
+      if  textCurrentlyInDisplay.contains(".") && digit == "." {
+        return
+      } else{
+        display.text = textCurrentlyInDisplay + digit
+      }
+
     } else {
       display.text = digit
       userIsInTheMiddleOfTyping = true
@@ -43,11 +55,27 @@ class ViewController: UIViewController {
     }
 
     if let mathematicalSymbol = sender.currentTitle {
+      if(mathematicalSymbol == "C"){
+        display.text = "0"
+        descriptionDisplay.text = " "
+      }
       brain.performOperation(mathematicalSymbol)
     }
-    if let result = brain.result {
-      displayValue = result
+    
+    if let accumulator = brain.result.accumulator {
+      displayValue = accumulator
     }
+    
+    if brain.resultIsPending {
+      descriptionDisplay.text = brain.result.description + "..."
+    }else{
+      descriptionDisplay.text = brain.result.description == " " ? " " : brain.result.description + "="
+    }
+
+
+  }
+  @IBAction func performClear(_ sender: Any) {
+
   }
   
   
