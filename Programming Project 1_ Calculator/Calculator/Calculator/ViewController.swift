@@ -71,13 +71,7 @@ class ViewController: UIViewController {
     }else{
       descriptionDisplay.text = brain.result.description == " " ? " " : brain.result.description + "="
     }
-
-
+    
   }
-  @IBAction func performClear(_ sender: Any) {
-
-  }
-  
-  
 }
 
