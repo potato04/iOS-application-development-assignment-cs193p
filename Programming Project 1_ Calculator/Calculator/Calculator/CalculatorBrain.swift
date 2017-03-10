@@ -91,7 +91,7 @@ struct CalclatorBrain {
         break
       
       case .clear:
-        result = (nil, " ")
+        result = (0, " ")
         pendingBinaryOperation = nil
         break;
       }
