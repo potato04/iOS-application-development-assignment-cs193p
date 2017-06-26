@@ -3,8 +3,6 @@ Developing iOS 10 Apps with Swift - Paul Hegarty
 
 ------
 
-1.Programming Project 1: Calculator   **Done**
+[1.Programming Project 1: Calculator](https://github.com/shiwangwang/iOS-application-development-assignment-cs193p/tree/master/Programming%20Project%201_%20Calculator)   ✅
 
-![image](https://github.com/shiwangwang/iOS-application-development-assignment-cs193p/raw/master/images/p1-1.png)
-
-![image](https://github.com/shiwangwang/iOS-application-development-assignment-cs193p/raw/master/images/p1-2.png)
+2.Programming Project 2: Calculator   🕐
