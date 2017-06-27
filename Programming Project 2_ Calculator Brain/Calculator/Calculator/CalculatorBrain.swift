@@ -48,9 +48,7 @@ struct CalclatorBrain {
       return function(firstOperand,secondOperand)
     }
   }
-  
-
-  
+	
   var resultIsPending: Bool {
     return pendingBinaryOperation == nil ? false : true
   }
@@ -113,6 +111,14 @@ struct CalclatorBrain {
   mutating func setOperand(_ operand: Double) {
     result = (operand, pendingBinaryOperation == nil ? String(operand) : result.description)
   }
+	
+	mutating func setOperand(variable named: String) {
+		
+	}
+	
+	func evaluate(using variables: Dictionary<String, Double>? = nil) -> (result: Double?, isPending: Bool, description: String) {
+		return (0, false, "")
+	}
   
   
 }
