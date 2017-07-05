@@ -9,9 +9,10 @@
 import UIKit
 
 class ViewController: UIViewController {
-  
+	
   @IBOutlet weak var display: UILabel!
   @IBOutlet weak var descriptionDisplay: UILabel!
+	@IBOutlet weak var variablesDisplay: UILabel!
   
   override func viewDidLoad() {
     descriptionDisplay.text = " "
@@ -28,8 +29,29 @@ class ViewController: UIViewController {
       display.text = String(newValue)
     }
   }
+	
+	var result: (result: Double?, isPending: Bool, description: String) = (nil, false, " ") {
+		didSet {
+			if let accumulator = result.result {
+				displayValue = accumulator
+			}
+			if result.isPending {
+				descriptionDisplay.text = result.description + "..."
+			} else {
+				descriptionDisplay.text =	result.description == " " ? " " : result.description + "="
+			}
+		}
+	}
   
   private var brain = CalclatorBrain()
+	private var variables: [String: Double] = [:] {
+		didSet {
+			variablesDisplay.text = " "
+			for (name,value) in variables {
+				variablesDisplay.text?.append("\(name) = \(value)")
+			}
+		}
+	}
   
   @IBAction func touchDigit(_ sender: UIButton) {
     let digit = sender.currentTitle!
@@ -47,27 +69,51 @@ class ViewController: UIViewController {
       userIsInTheMiddleOfTyping = true
     }
   }
-  
+	
+	@IBAction func clear(_ sender: Any) {
+		brain = CalclatorBrain()
+		userIsInTheMiddleOfTyping = false
+		display.text = " "
+		descriptionDisplay.text = " "
+		variables = Dictionary<String, Double>()
+	}
   @IBAction func performOperation(_ sender: UIButton) {
     if userIsInTheMiddleOfTyping {
       brain.setOperand(displayValue)
       userIsInTheMiddleOfTyping = false
     }
-
-    if let mathematicalSymbol = sender.currentTitle {
-      brain.performOperation(mathematicalSymbol)
-    }
-    
-    if let accumulator = brain.result.accumulator {
-      displayValue = accumulator
-    }
-    
-    if brain.resultIsPending {
-      descriptionDisplay.text = brain.result.description + "..."
-    }else{
-      descriptionDisplay.text = brain.result.description == " " ? " " : brain.result.description + "="
-    }
-    
+		if let mathematicalSymbol = sender.currentTitle {
+			brain.performOperation(mathematicalSymbol)
+		}
+		result = brain.evaluate(using: variables)
   }
+	@IBAction func defineVariable(_ sender: UIButton) {
+		if let symbol = sender.currentTitle {
+			userIsInTheMiddleOfTyping = false
+			brain.setOperand(variable: symbol)
+			result = brain.evaluate(using: variables)
+		}
+	}
+	@IBAction func initialVariable(_ sender: UIButton) {
+		userIsInTheMiddleOfTyping = false
+		let symbol = String(sender.currentTitle!.characters.last!)
+		variables[symbol] = Double(display.text!)
+		result = brain.evaluate(using: variables)
+	}
+	@IBAction func undoOrBackspace(_ sender: Any) {
+		if userIsInTheMiddleOfTyping {
+			//remove last character in display
+		  if var operand = display.text {
+				operand.remove(at: operand.index(before: operand.endIndex))
+				display.text = " " + operand
+			}
+		} else {
+			//undo last command
+			brain.undoOperation()
+			result = brain.evaluate(using: variables)
+		}
+	}
+	
+	
 }
 
