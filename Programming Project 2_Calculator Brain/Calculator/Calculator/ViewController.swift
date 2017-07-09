@@ -10,25 +10,25 @@ import UIKit
 
 class ViewController: UIViewController {
 	
-  @IBOutlet weak var display: UILabel!
-  @IBOutlet weak var descriptionDisplay: UILabel!
+	@IBOutlet weak var display: UILabel!
+	@IBOutlet weak var descriptionDisplay: UILabel!
 	@IBOutlet weak var variablesDisplay: UILabel!
-  
-  override func viewDidLoad() {
-    descriptionDisplay.text = " "
-  }
-  
-  
-  var userIsInTheMiddleOfTyping = false
-  
-  var displayValue: Double {
-    get {
-      return Double(display.text!)!
-    }
-    set {
-      display.text = String(newValue)
-    }
-  }
+	
+	override func viewDidLoad() {
+		descriptionDisplay.text = " "
+	}
+	
+	
+	var userIsInTheMiddleOfTyping = false
+	
+	var displayValue: Double {
+		get {
+			return Double(display.text!)!
+		}
+		set {
+			display.text = String(newValue)
+		}
+	}
 	
 	var result: (result: Double?, isPending: Bool, description: String) = (nil, false, " ") {
 		didSet {
@@ -42,8 +42,8 @@ class ViewController: UIViewController {
 			}
 		}
 	}
-  
-  private var brain = CalclatorBrain()
+	
+	private var brain = CalclatorBrain()
 	private var variables: [String: Double] = [:] {
 		didSet {
 			variablesDisplay.text = " "
@@ -52,23 +52,23 @@ class ViewController: UIViewController {
 			}
 		}
 	}
-  
-  @IBAction func touchDigit(_ sender: UIButton) {
-    let digit = sender.currentTitle!
-    if userIsInTheMiddleOfTyping {
-      let textCurrentlyInDisplay = display.text!
-      
-      if  textCurrentlyInDisplay.contains(".") && digit == "." {
-        return
-      } else{
-        display.text = textCurrentlyInDisplay + digit
-      }
-
-    } else {
-      display.text = digit
-      userIsInTheMiddleOfTyping = true
-    }
-  }
+	
+	@IBAction func touchDigit(_ sender: UIButton) {
+		let digit = sender.currentTitle!
+		if userIsInTheMiddleOfTyping {
+			let textCurrentlyInDisplay = display.text!
+			
+			if  textCurrentlyInDisplay.contains(".") && digit == "." {
+				return
+			} else{
+				display.text = textCurrentlyInDisplay + digit
+			}
+			
+		} else {
+			display.text = digit
+			userIsInTheMiddleOfTyping = true
+		}
+	}
 	
 	@IBAction func clear(_ sender: Any) {
 		brain = CalclatorBrain()
@@ -77,16 +77,16 @@ class ViewController: UIViewController {
 		descriptionDisplay.text = " "
 		variables = Dictionary<String, Double>()
 	}
-  @IBAction func performOperation(_ sender: UIButton) {
-    if userIsInTheMiddleOfTyping {
-      brain.setOperand(displayValue)
-      userIsInTheMiddleOfTyping = false
-    }
+	@IBAction func performOperation(_ sender: UIButton) {
+		if userIsInTheMiddleOfTyping {
+			brain.setOperand(displayValue)
+			userIsInTheMiddleOfTyping = false
+		}
 		if let mathematicalSymbol = sender.currentTitle {
 			brain.performOperation(mathematicalSymbol)
 		}
 		result = brain.evaluate(using: variables)
-  }
+	}
 	@IBAction func defineVariable(_ sender: UIButton) {
 		if let symbol = sender.currentTitle {
 			userIsInTheMiddleOfTyping = false
@@ -103,7 +103,7 @@ class ViewController: UIViewController {
 	@IBAction func undoOrBackspace(_ sender: Any) {
 		if userIsInTheMiddleOfTyping {
 			//remove last character in display
-		  if var operand = display.text {
+			if var operand = display.text {
 				operand.remove(at: operand.index(before: operand.endIndex))
 				display.text = " " + operand
 			}

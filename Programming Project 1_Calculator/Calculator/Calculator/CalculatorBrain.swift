@@ -16,6 +16,7 @@ struct CalclatorBrain {
     case constant(Double)
     case unaryOperation((Double) -> Double)
     case binaryOperation((Double,Double) -> Double)
+    case nullaryOperation(() -> Double)
     case equals
     case clear
   }
@@ -26,6 +27,7 @@ struct CalclatorBrain {
     "√" : Operation.unaryOperation(sqrt),
     "cos" : Operation.unaryOperation(cos),
     "sin" : Operation.unaryOperation(sin),
+    "Rand": Operation.nullaryOperation({Double(arc4random()) / Double(UInt32.max)}),
     "%" : Operation.unaryOperation({ $0 / 100.0 }),
     "±" : Operation.unaryOperation({ -$0 }),
     "×" : Operation.binaryOperation({ $0 * $1 }),
@@ -49,7 +51,7 @@ struct CalclatorBrain {
     }
   }
   
-
+  
   
   var resultIsPending: Bool {
     return pendingBinaryOperation == nil ? false : true
@@ -59,9 +61,14 @@ struct CalclatorBrain {
   mutating func performOperation(_ symbol: String) {
     if let constant = operations[symbol] {
       switch constant {
-      
+        
       case .constant(let value):
-        result = (value, result.description + symbol)
+        if resultIsPending {
+          result = (value, result.description + symbol)
+        } else {
+          result = (value, symbol)
+        }
+        binaryOperationShouldNotAppendAccmulator = true
         break
         
       case .unaryOperation(let function):
@@ -74,36 +81,48 @@ struct CalclatorBrain {
           }
         }
         break
-      
+        
       case .binaryOperation(let function):
+        binaryOperationShouldNotAppendAccmulator = false
         if result.accumulator != nil {
           if resultIsPending {
             performPendingBinaryOperation()
           }
           pendingBinaryOperation = PendingBinaryOperation(function: function, firstOperand: result.accumulator!)
           result = (nil, result.description == " " ?
-          String(result.accumulator!) + symbol : result.description + symbol )
+            String(result.accumulator!) + symbol : result.description + symbol )
         }
         break
-      
+        
+      case .nullaryOperation(let function):
+        if resultIsPending {
+          result = (function(), result.description + symbol)
+        } else {
+          result = (function(), symbol)
+        }
+        binaryOperationShouldNotAppendAccmulator = true
+        
       case .equals:
         performPendingBinaryOperation()
         break
-      
+        
       case .clear:
         result = (0, " ")
         pendingBinaryOperation = nil
         break;
       }
-    
+      
     }
   }
   
   private mutating func performPendingBinaryOperation(){
     if resultIsPending && result.accumulator != nil{
       
+      let numberFormatter = NumberFormatter()
+      numberFormatter.numberStyle = .decimal
+      numberFormatter.maximumFractionDigits = 6
       result = (pendingBinaryOperation?.perform(with: result.accumulator!),
-                binaryOperationShouldNotAppendAccmulator == true ? result.description : result.description + String(result.accumulator!))
+                binaryOperationShouldNotAppendAccmulator == true ? result.description : result.description + numberFormatter.string(from: NSNumber(value: result.accumulator!))!)
       
       binaryOperationShouldNotAppendAccmulator = false
       pendingBinaryOperation = nil
@@ -111,7 +130,10 @@ struct CalclatorBrain {
   }
   
   mutating func setOperand(_ operand: Double) {
-    result = (operand, pendingBinaryOperation == nil ? String(operand) : result.description)
+    let numberFormatter = NumberFormatter()
+    numberFormatter.numberStyle = .decimal
+    numberFormatter.maximumFractionDigits = 6
+    result = (operand, pendingBinaryOperation == nil ? numberFormatter.string(from: NSNumber(value: operand))! : result.description)
   }
   
   

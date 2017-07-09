@@ -17,7 +17,6 @@ class ViewController: UIViewController {
     descriptionDisplay.text = " "
   }
   
-  
   var userIsInTheMiddleOfTyping = false
   
   var displayValue: Double {
@@ -25,7 +24,10 @@ class ViewController: UIViewController {
       return Double(display.text!)!
     }
     set {
-      display.text = String(newValue)
+      let numberFormatter = NumberFormatter()
+      numberFormatter.numberStyle = .decimal
+      numberFormatter.maximumFractionDigits = 6
+      display.text = numberFormatter.string(from: NSNumber(value: newValue))
     }
   }
   
@@ -41,7 +43,7 @@ class ViewController: UIViewController {
       } else{
         display.text = textCurrentlyInDisplay + digit
       }
-
+      
     } else {
       display.text = digit
       userIsInTheMiddleOfTyping = true
@@ -53,7 +55,7 @@ class ViewController: UIViewController {
       brain.setOperand(displayValue)
       userIsInTheMiddleOfTyping = false
     }
-
+    
     if let mathematicalSymbol = sender.currentTitle {
       brain.performOperation(mathematicalSymbol)
     }
@@ -68,6 +70,14 @@ class ViewController: UIViewController {
       descriptionDisplay.text = brain.result.description == " " ? " " : brain.result.description + "="
     }
     
+  }
+  @IBAction func backsapce(_ sender: Any) {
+    if userIsInTheMiddleOfTyping {
+      if var operand = display.text {
+        operand.remove(at: operand.index(before: operand.endIndex))
+        display.text = " " + operand
+      }
+    }
   }
 }
 
