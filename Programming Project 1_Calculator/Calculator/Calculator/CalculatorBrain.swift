@@ -37,7 +37,6 @@ struct CalclatorBrain {
     "EE": Operation.binaryOperation({ $0 * pow(10,$1) }),
     "=" : Operation.equals,
     "C" : Operation.clear
-    
   ]
   
   private var pendingBinaryOperation: PendingBinaryOperation?

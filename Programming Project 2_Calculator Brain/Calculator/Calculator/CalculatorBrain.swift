@@ -23,6 +23,7 @@ struct CalclatorBrain {
 		case constant(Double)
 		case unaryOperation((Double) -> Double)
 		case binaryOperation((Double,Double) -> Double)
+    case nullaryOperation(() -> Double)
 		case equals
 	}
 	
@@ -34,6 +35,7 @@ struct CalclatorBrain {
 		"√" : Operation.unaryOperation(sqrt),
 		"cos" : Operation.unaryOperation(cos),
 		"sin" : Operation.unaryOperation(sin),
+    "Rand": Operation.nullaryOperation({Double(arc4random()) / Double(UInt32.max)}),
 		"%" : Operation.unaryOperation({ $0 / 100.0 }),
 		"±" : Operation.unaryOperation({ -$0 }),
 		"×" : Operation.binaryOperation({ $0 * $1 }),
@@ -114,10 +116,13 @@ struct CalclatorBrain {
 					pendingBinaryOperation = PendingBinaryOperation(function: function, firstOperand: result.accumulator!)
 					result = (nil, result.description == " " ? String(result.accumulator!) + command.description : result.description + command.description )
 				}
-				
-			case .equals:
-				performPendingBinaryOperation()
+        
+      case .nullaryOperation(let function):
+        dontAppendingAccmulatorWhenPerformPendingBinaryOperation = true
+        result = (function(), result.description + command.description)
 			
+      case .equals:
+				performPendingBinaryOperation()
 			}
 		}
 		
