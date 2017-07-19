@@ -21,8 +21,8 @@ struct CalclatorBrain {
 		case number(Double)
 		case variable(String)
 		case constant(Double)
-		case unaryOperation((Double) -> Double)
-		case binaryOperation((Double,Double) -> Double)
+		case unaryOperation((Double) -> Double, (Double) -> String?)
+		case binaryOperation((Double,Double) -> Double,(Double, Double) -> String?)
     case nullaryOperation(() -> Double)
 		case equals
 	}
@@ -32,17 +32,21 @@ struct CalclatorBrain {
 	private var operations: Dictionary<String,Operation> = [
 		"π" : Operation.constant(Double.pi),
 		"e" : Operation.constant(M_E),
-		"√" : Operation.unaryOperation(sqrt),
-		"cos" : Operation.unaryOperation(cos),
-		"sin" : Operation.unaryOperation(sin),
+		
+		"√" : Operation.unaryOperation(sqrt, {$0<0 ? "can't square root negative number" : nil}),
+		"cos" : Operation.unaryOperation(cos, {_ in nil}),
+		"sin" : Operation.unaryOperation(sin, {_ in nil}),
+		"%" : Operation.unaryOperation({ $0 / 100.0 }, {_ in nil}),
+		"±" : Operation.unaryOperation({ -$0 },{_ in nil}),
+		
     "Rand": Operation.nullaryOperation({Double(arc4random()) / Double(UInt32.max)}),
-		"%" : Operation.unaryOperation({ $0 / 100.0 }),
-		"±" : Operation.unaryOperation({ -$0 }),
-		"×" : Operation.binaryOperation({ $0 * $1 }),
-		"÷" : Operation.binaryOperation({ $0 / $1 }),
-		"+" : Operation.binaryOperation({ $0 + $1 }),
-		"−" : Operation.binaryOperation({ $0 - $1 }),
-		"EE": Operation.binaryOperation({ $0 * pow(10,$1) }),
+		
+    "×" : Operation.binaryOperation({ $0 * $1 }, {_,_ in nil}),
+		"÷" : Operation.binaryOperation({ $0 / $1 }, {$1 == 0 ? "can't divide by 0" : nil}),
+		"+" : Operation.binaryOperation({ $0 + $1 }, {_,_ in nil}),
+		"−" : Operation.binaryOperation({ $0 - $1 }, {_,_ in nil}),
+		"EE": Operation.binaryOperation({ $0 * pow(10,$1) }, {_,_ in nil}),
+		
 		"=" : Operation.equals
 	]
 	
@@ -63,14 +67,20 @@ struct CalclatorBrain {
 		commands.removeLast(1)
 	}
 	
-	func evaluate(using variables: Dictionary<String, Double>? = nil) -> (result: Double?, isPending: Bool, description: String) {
+  func evaluate(using variables: Dictionary<String, Double>? = nil) -> (result: Double?, isPending: Bool, description: String){
+    let result = evaluateWithErrorReport(using: variables)
+    return (result.result, result.isPending, result.description)
+  }
+  
+  func evaluateWithErrorReport(using variables: Dictionary<String, Double>? = nil) -> (result: Double?, isPending: Bool, description: String, error: String?) {
 		
-		var result: (accumulator: Double?, description: String) = (nil, " ")
+    var result: (accumulator: Double?, description: String, error: String?) = (nil, " ", nil)
 		var pendingBinaryOperation: PendingBinaryOperation?
 
 		struct PendingBinaryOperation {
 			let function: (Double,Double) -> Double
 			let firstOperand: Double
+      let errorFunction: (Double, Double) -> String?
 			
 			func perform(with secondOperand: Double) -> Double {
 				return function(firstOperand,secondOperand)
@@ -87,39 +97,39 @@ struct CalclatorBrain {
 			switch command.operation {
 			
 			case .number(let number):
-				result = (number, resultIsPending ? result.description : command.description)
+				result = (number, resultIsPending ? result.description : command.description, nil)
 			
 			case .variable(let named):
 				dontAppendingAccmulatorWhenPerformPendingBinaryOperation = true
-				result = (variables?[named] ?? 0 , result.description + command.description)
+				result = (variables?[named] ?? 0 , result.description + command.description, nil)
 				break
 				
 			case .constant(let value):
 				dontAppendingAccmulatorWhenPerformPendingBinaryOperation = true
-				result = (value, result.description + command.description)
+				result = (value, result.description + command.description, nil)
 			
-			case .unaryOperation(let function):
+			case .unaryOperation(let function, let exceptionFunction):
 				if let accumulator = result.accumulator {
 					if resultIsPending {
-						result = (function(accumulator), result.description + command.description + String(accumulator))
+						result = (function(accumulator), result.description + command.description + String(accumulator), exceptionFunction(accumulator))
 						dontAppendingAccmulatorWhenPerformPendingBinaryOperation = true
 					} else {
-						result = (function(accumulator), command.description + "(\(result.description))")
+						result = (function(accumulator), command.description + "(\(result.description))", exceptionFunction(accumulator))
 					}
 				}
 				
-			case .binaryOperation(let function):
+			case .binaryOperation(let function, let exceptionFunction):
 				if result.accumulator != nil {
 					if resultIsPending {
 						performPendingBinaryOperation()
 					}
-					pendingBinaryOperation = PendingBinaryOperation(function: function, firstOperand: result.accumulator!)
-					result = (nil, result.description == " " ? String(result.accumulator!) + command.description : result.description + command.description )
+          pendingBinaryOperation = PendingBinaryOperation(function: function, firstOperand: result.accumulator!,errorFunction: exceptionFunction)
+					result = (nil, result.description == " " ? String(result.accumulator!) + command.description : result.description + command.description, nil)
 				}
         
       case .nullaryOperation(let function):
         dontAppendingAccmulatorWhenPerformPendingBinaryOperation = true
-        result = (function(), result.description + command.description)
+        result = (function(), result.description + command.description, nil)
 			
       case .equals:
 				performPendingBinaryOperation()
@@ -129,7 +139,8 @@ struct CalclatorBrain {
 		func performPendingBinaryOperation(){
 			if resultIsPending, let accumulator = result.accumulator {
 				result = (pendingBinaryOperation?.perform(with: accumulator),
-				          dontAppendingAccmulatorWhenPerformPendingBinaryOperation == true ? result.description : result.description + String(accumulator))
+				          dontAppendingAccmulatorWhenPerformPendingBinaryOperation == true ? result.description : result.description + String(accumulator),
+				          pendingBinaryOperation?.errorFunction((pendingBinaryOperation?.firstOperand)!, accumulator))
 				dontAppendingAccmulatorWhenPerformPendingBinaryOperation = false
 				pendingBinaryOperation = nil
 			}
@@ -139,7 +150,7 @@ struct CalclatorBrain {
 			performOperation(command: command)
 		}
 		
-		return (result.accumulator, resultIsPending, result.description)
+		return (result.accumulator, resultIsPending, result.description, result.error)
 	}
 	
 	
