@@ -30,16 +30,21 @@ class ViewController: UIViewController {
 		}
 	}
 	
-	var result: (result: Double?, isPending: Bool, description: String) = (nil, false, " ") {
+  var result: (result: Double?, isPending: Bool, description: String, error: String?) = (nil, false, " ", nil) {
 		didSet {
-			if let accumulator = result.result {
-				displayValue = accumulator
-			}
-			if result.isPending {
-				descriptionDisplay.text = result.description + "..."
-			} else {
-				descriptionDisplay.text =	result.description == " " ? " " : result.description + "="
-			}
+      if let errorInfo = result.error {
+        descriptionDisplay.text = errorInfo
+      }else {
+        if let accumulator = result.result {
+          displayValue = accumulator
+        }
+        if result.isPending {
+          descriptionDisplay.text = result.description + "..."
+        } else {
+          descriptionDisplay.text =	result.description == " " ? " " : result.description + "="
+        }
+      }
+
 		}
 	}
 	
@@ -85,20 +90,20 @@ class ViewController: UIViewController {
 		if let mathematicalSymbol = sender.currentTitle {
 			brain.performOperation(mathematicalSymbol)
 		}
-		result = brain.evaluate(using: variables)
+		result = brain.evaluateWithErrorReport(using: variables)
 	}
 	@IBAction func defineVariable(_ sender: UIButton) {
 		if let symbol = sender.currentTitle {
 			userIsInTheMiddleOfTyping = false
 			brain.setOperand(variable: symbol)
-			result = brain.evaluate(using: variables)
+			result = brain.evaluateWithErrorReport(using: variables)
 		}
 	}
 	@IBAction func initialVariable(_ sender: UIButton) {
 		userIsInTheMiddleOfTyping = false
 		let symbol = String(sender.currentTitle!.characters.last!)
 		variables[symbol] = Double(display.text!)
-		result = brain.evaluate(using: variables)
+		result = brain.evaluateWithErrorReport(using: variables)
 	}
 	@IBAction func undoOrBackspace(_ sender: Any) {
 		if userIsInTheMiddleOfTyping {
@@ -110,7 +115,7 @@ class ViewController: UIViewController {
 		} else {
 			//undo last command
 			brain.undoOperation()
-			result = brain.evaluate(using: variables)
+			result = brain.evaluateWithErrorReport(using: variables)
 		}
 	}
 	
