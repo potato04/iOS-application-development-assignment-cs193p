@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		4B098A261F3235B7008902AA /* AxesDrawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B098A251F3235B7008902AA /* AxesDrawer.swift */; };
+		4B098A281F336D00008902AA /* GraphingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B098A271F336D00008902AA /* GraphingViewController.swift */; };
+		4B098A2A1F338272008902AA /* GraphingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B098A291F338272008902AA /* GraphingView.swift */; };
 		4B324B211E6862FE004CBBEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B324B201E6862FE004CBBEF /* AppDelegate.swift */; };
 		4B324B231E6862FE004CBBEF /* CalculatorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B324B221E6862FE004CBBEF /* CalculatorViewController.swift */; };
 		4B324B261E6862FE004CBBEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4B324B241E6862FE004CBBEF /* Main.storyboard */; };
@@ -18,6 +20,8 @@
 
 /* Begin PBXFileReference section */
 		4B098A251F3235B7008902AA /* AxesDrawer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AxesDrawer.swift; sourceTree = "<group>"; };
+		4B098A271F336D00008902AA /* GraphingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphingViewController.swift; sourceTree = "<group>"; };
+		4B098A291F338272008902AA /* GraphingView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GraphingView.swift; sourceTree = "<group>"; };
 		4B324B1D1E6862FE004CBBEF /* Calculator.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Calculator.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4B324B201E6862FE004CBBEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4B324B221E6862FE004CBBEF /* CalculatorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalculatorViewController.swift; sourceTree = "<group>"; };
@@ -60,6 +64,8 @@
 			children = (
 				4B098A251F3235B7008902AA /* AxesDrawer.swift */,
 				4B324B221E6862FE004CBBEF /* CalculatorViewController.swift */,
+				4B098A271F336D00008902AA /* GraphingViewController.swift */,
+				4B098A291F338272008902AA /* GraphingView.swift */,
 				4B324B241E6862FE004CBBEF /* Main.storyboard */,
 				4B324B331E69AB9B004CBBEF /* CalculatorBrain.swift */,
 				4B324B321E6863A3004CBBEF /* Supproting Files */,
@@ -151,9 +157,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4B098A2A1F338272008902AA /* GraphingView.swift in Sources */,
 				4B324B341E69AB9B004CBBEF /* CalculatorBrain.swift in Sources */,
 				4B098A261F3235B7008902AA /* AxesDrawer.swift in Sources */,
 				4B324B231E6862FE004CBBEF /* CalculatorViewController.swift in Sources */,
+				4B098A281F336D00008902AA /* GraphingViewController.swift in Sources */,
 				4B324B211E6862FE004CBBEF /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

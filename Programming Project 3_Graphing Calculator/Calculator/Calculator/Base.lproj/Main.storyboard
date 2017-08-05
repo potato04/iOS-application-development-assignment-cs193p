@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="GIa-dC-Vqi">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -428,6 +428,39 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="136.80000000000001" y="137.18140929535232"/>
+        </scene>
+        <!--Graphing View Controller-->
+        <scene sceneID="ut3-IA-lxe">
+            <objects>
+                <viewController id="GIa-dC-Vqi" customClass="GraphingViewController" customModule="Calculator" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="IdS-45-GUq"/>
+                        <viewControllerLayoutGuide type="bottom" id="vQy-zC-G0i"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bTv-3a-Inh">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fXd-Qq-rOM" customClass="GraphingView" customModule="Calculator" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="fXd-Qq-rOM" firstAttribute="top" secondItem="bTv-3a-Inh" secondAttribute="top" id="1LD-pe-Hbz"/>
+                            <constraint firstItem="fXd-Qq-rOM" firstAttribute="bottom" secondItem="vQy-zC-G0i" secondAttribute="top" id="P3y-kv-78i"/>
+                            <constraint firstItem="fXd-Qq-rOM" firstAttribute="leading" secondItem="bTv-3a-Inh" secondAttribute="leading" id="QLr-m2-opl"/>
+                            <constraint firstAttribute="trailing" secondItem="fXd-Qq-rOM" secondAttribute="trailing" id="Vnc-Z6-sGT"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="graphingView" destination="fXd-Qq-rOM" id="ZS1-Q9-Mj5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="a5R-Bj-ddC" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="130.40000000000001" y="793.8530734632684"/>
         </scene>
     </scenes>
 </document>
