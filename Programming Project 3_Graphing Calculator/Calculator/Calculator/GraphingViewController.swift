@@ -10,19 +10,24 @@ import UIKit
 
 class GraphingViewController: UIViewController {
   
-  @IBOutlet weak var graphingView: GraphingView!
-  
-  override func viewDidLoad() {
-    graphingView.dataSource = self
+  var calcFunction: ((Double) -> Double?)?
+  var functionDescription: String = ""
+  @IBOutlet weak var graphingView: GraphingView!{
+    didSet {
+      graphingView.dataSource = self
+    }
   }
 
+  override func viewDidLoad() {
+    
+  }
 }
 
 extension GraphingViewController: GraphingViewDataSource{
   func graphingView(_ graphingView: GraphingView, xAxisValue: Double) -> Double? {
-    return xAxisValue + 1
+    return calcFunction!(xAxisValue)
   }
   func functiontDescription(_ graphingView: GraphingView) -> String {
-    return "y=sin(x)"
+    return functionDescription
   }
 }

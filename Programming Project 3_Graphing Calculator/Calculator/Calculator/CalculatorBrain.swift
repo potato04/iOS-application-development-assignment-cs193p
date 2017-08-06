@@ -115,6 +115,7 @@ struct CalclatorBrain {
             dontAppendingAccmulatorWhenPerformPendingBinaryOperation = true
           } else {
             result = (function(accumulator), command.description + "(\(result.description))", exceptionFunction(accumulator))
+            dontAppendingAccmulatorWhenPerformPendingBinaryOperation = false
           }
         }
         

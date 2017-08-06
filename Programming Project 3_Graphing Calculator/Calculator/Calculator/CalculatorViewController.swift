@@ -118,7 +118,22 @@ class CalculatorViewController: UIViewController {
       result = brain.evaluateWithErrorReport(using: variables)
     }
   }
-  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    let navigationController = segue.destination as! UINavigationController
+    
+    if segue.identifier == "showGraph"{
+      let destViewController = navigationController.topViewController as! GraphingViewController
+      destViewController.calcFunction = { [weak self] operand in
+        if let weaksSelf = self {
+          return weaksSelf.brain.evaluate(using: ["M":operand]).result
+        }
+        return nil
+      }
+      destViewController.functionDescription = descriptionDisplay.text!
+    }
+
+    
+  }
   
 }
 

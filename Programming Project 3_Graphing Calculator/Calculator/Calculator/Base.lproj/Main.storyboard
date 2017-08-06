@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="GIa-dC-Vqi">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="12121" systemVersion="16G29" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -61,10 +61,13 @@
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DBm-te-U0I">
                                                         <rect key="frame" x="0.0" y="0.0" width="64.5" height="85.5"/>
                                                         <color key="backgroundColor" red="0.87450981139999995" green="0.96470588450000005" blue="0.90588235859999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                                        <fontDescription key="fontDescription" type="system" pointSize="30"/>
-                                                        <state key="normal">
+                                                        <fontDescription key="fontDescription" type="system" pointSize="22"/>
+                                                        <state key="normal" title="Graph">
                                                             <color key="titleColor" red="0.25098039220000001" green="0.59999999999999998" blue="0.32156862749999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
+                                                        <connections>
+                                                            <segue destination="Ngl-pR-8Wm" kind="show" identifier="showGraph" id="lkR-cM-zWj"/>
+                                                        </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AjA-bm-7eQ">
                                                         <rect key="frame" x="69.5" y="0.0" width="64.5" height="85.5"/>
@@ -454,13 +457,34 @@
                             <constraint firstAttribute="trailing" secondItem="fXd-Qq-rOM" secondAttribute="trailing" id="Vnc-Z6-sGT"/>
                         </constraints>
                     </view>
+                    <navigationItem key="navigationItem" id="GH0-Jw-6DD">
+                        <barButtonItem key="backBarButtonItem" title="back" id="6v5-Ve-uLd"/>
+                    </navigationItem>
                     <connections>
                         <outlet property="graphingView" destination="fXd-Qq-rOM" id="ZS1-Q9-Mj5"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="a5R-Bj-ddC" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="130.40000000000001" y="793.8530734632684"/>
+            <point key="canvasLocation" x="1876" y="136.28185907046478"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="p9z-sQ-MsW">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ngl-pR-8Wm" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="xLU-Eh-pMz">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="GIa-dC-Vqi" kind="relationship" relationship="rootViewController" id="xs2-jw-70E"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="aMj-Ok-ao1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="936.79999999999995" y="136.28185907046478"/>
         </scene>
     </scenes>
 </document>
