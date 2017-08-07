@@ -56,7 +56,10 @@ struct CalclatorBrain {
     }
   }
   mutating func setOperand(_ operand: Double) {
-    commands.append((Operation.number(operand),String(operand)))
+    let numberFormatter = NumberFormatter()
+    numberFormatter.numberStyle = .decimal
+    numberFormatter.maximumFractionDigits = 6
+    commands.append((Operation.number(operand), numberFormatter.string(from: NSNumber(value: operand))!))
   }
   
   mutating func setOperand(variable named: String) {
@@ -139,8 +142,11 @@ struct CalclatorBrain {
     
     func performPendingBinaryOperation(){
       if resultIsPending, let accumulator = result.accumulator {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .decimal
+        numberFormatter.maximumFractionDigits = 6
         result = (pendingBinaryOperation?.perform(with: accumulator),
-                  dontAppendingAccmulatorWhenPerformPendingBinaryOperation == true ? result.description : result.description + String(accumulator),
+                  dontAppendingAccmulatorWhenPerformPendingBinaryOperation == true ? result.description : result.description + numberFormatter.string(from: NSNumber(value: accumulator))!,
                   pendingBinaryOperation?.errorFunction((pendingBinaryOperation?.firstOperand)!, accumulator))
         dontAppendingAccmulatorWhenPerformPendingBinaryOperation = false
         pendingBinaryOperation = nil

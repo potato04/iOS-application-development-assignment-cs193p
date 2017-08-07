@@ -26,7 +26,10 @@ class ViewController: UIViewController {
       return Double(display.text!)!
     }
     set {
-      display.text = String(newValue)
+      let numberFormatter = NumberFormatter()
+      numberFormatter.numberStyle = .decimal
+      numberFormatter.maximumFractionDigits = 6
+      display.text = numberFormatter.string(from: NSNumber(value: newValue))
     }
   }
   
