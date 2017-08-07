@@ -25,7 +25,10 @@ class GraphingViewController: UIViewController {
 
 extension GraphingViewController: GraphingViewDataSource{
   func graphingView(_ graphingView: GraphingView, xAxisValue: Double) -> Double? {
-    return calcFunction!(xAxisValue)
+    if let getYValue = calcFunction {
+        return getYValue(xAxisValue)
+    }
+    return nil
   }
   func functiontDescription(_ graphingView: GraphingView) -> String {
     return functionDescription

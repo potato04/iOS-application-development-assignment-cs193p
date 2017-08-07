@@ -122,11 +122,13 @@ class CalculatorViewController: UIViewController {
     }
   }
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    let navigationController = segue.destination as! UINavigationController
+    var destnationViewController = segue.destination
+    if let navigationController = destnationViewController as? UINavigationController {
+      destnationViewController = navigationController.visibleViewController ?? destnationViewController
+    }
     
-    if segue.identifier == "showGraph"{
-      let destViewController = navigationController.topViewController as! GraphingViewController
-      destViewController.calcFunction = { [weak self] operand in
+    if let graphingViewController = destnationViewController as? GraphingViewController {
+      graphingViewController.calcFunction = { [weak self] operand in
         if let weaksSelf = self {
           return weaksSelf.brain.evaluate(using: ["M":operand]).result
         }
@@ -134,9 +136,12 @@ class CalculatorViewController: UIViewController {
       }
       let functionDescription = descriptionDisplay.text!.replacingOccurrences(of: "M", with: "X")
         .replacingOccurrences(of: "=", with: "")
-      destViewController.functionDescription = "Y = \(functionDescription)"
+      graphingViewController.functionDescription = "Y = \(functionDescription)"
+      graphingViewController.navigationItem.title = "Y = \(functionDescription)"
+    
     }
 
+    
     
   }
   
