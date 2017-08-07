@@ -33,8 +33,9 @@ class GraphingView: UIView {
   }
   
   override func draw(_ rect: CGRect) {
+    //draw axes
     axesDrawer.drawAxes(in: rect, origin: graphOrigin, pointsPerUnit: pointsPerUnit)
-    
+    //draw graph
     if let source = dataSource {
       for x in stride(from: rect.minX, to: rect.maxX, by: 1){
         let xAxisValue = (x-graphOrigin.x)/pointsPerUnit
@@ -44,6 +45,9 @@ class GraphingView: UIView {
         }
       }
     }
+    //draw description
+    let text = NSAttributedString(string: dataSource!.functiontDescription(self))
+    text.draw(at: CGPoint(x: 20, y: 20))
   }
   
   private func transformToViewCoordinate(xy:(x:CGFloat,y:CGFloat)) -> CGPoint{

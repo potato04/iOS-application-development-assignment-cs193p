@@ -129,7 +129,9 @@ class CalculatorViewController: UIViewController {
         }
         return nil
       }
-      destViewController.functionDescription = descriptionDisplay.text!
+      let functionDescription = descriptionDisplay.text!.replacingOccurrences(of: "M", with: "X")
+        .replacingOccurrences(of: "=", with: "")
+      destViewController.functionDescription = "Y = \(functionDescription)"
     }
 
     

@@ -151,7 +151,7 @@ struct CalclatorBrain {
       performOperation(command: command)
     }
     
-    return (result.accumulator, resultIsPending, result.description, result.error)
+    return (result.accumulator, resultIsPending, result.description.components(separatedBy: .whitespaces).joined(), result.error)
   }
   
   
