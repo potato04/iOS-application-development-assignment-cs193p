@@ -10,7 +10,6 @@ import UIKit
 
 protocol GraphingViewDataSource{
   func graphingView(_ graphingView: GraphingView, xAxisValue: Double) -> Double?
-  func functiontDescription(_ graphingView: GraphingView) -> String
 }
 
 
@@ -20,7 +19,13 @@ class GraphingView: UIView {
   var axesDrawer: AxesDrawer = AxesDrawer()
   var pointsPerUnit: CGFloat = 50
   
-  var graphOrigin: CGPoint!
+  var graphOrigin: CGPoint! {
+    didSet{
+      //update ui
+      NSLog("x:%f,y:%f", graphOrigin.x, graphOrigin.y)
+      setNeedsDisplay()
+    }
+  }
   var dataSource: GraphingViewDataSource?
   
   override init(frame: CGRect) {
@@ -54,13 +59,25 @@ class GraphingView: UIView {
       path.lineWidth = 1.0
       path.stroke()
     }
-    //draw description
-    let text = NSAttributedString(string: dataSource!.functiontDescription(self))
-    text.draw(at: CGPoint(x: 20, y: 20))
   }
   
   private func transformToViewCoordinate(xy:(x:CGFloat,y:CGFloat)) -> CGPoint{
     return CGPoint(x: graphOrigin.x + (xy.x * pointsPerUnit),
                    y: graphOrigin.y - (xy.y * pointsPerUnit))
   }
+  
+  func pan(byReactingTo panRecognizer:UIPanGestureRecognizer){
+    switch panRecognizer.state {
+    case .changed: fallthrough
+    case .ended:
+      let translation = panRecognizer.translation(in: self)
+      if translation.x != 0 || translation.y != 0 {
+        let newGraphOrigin = CGPoint(x: graphOrigin.x + translation.x, y: graphOrigin.y + translation.y)
+        graphOrigin = newGraphOrigin
+      }
+      panRecognizer.setTranslation(CGPoint.zero, in: self)
+    default: break
+    }
+  }
+  
 }

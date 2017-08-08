@@ -15,6 +15,9 @@ class GraphingViewController: UIViewController {
   @IBOutlet weak var graphingView: GraphingView!{
     didSet {
       graphingView.dataSource = self
+      let handler = #selector(GraphingView.pan(byReactingTo:))
+      let panRegnizer = UIPanGestureRecognizer(target: graphingView, action: handler)
+      graphingView.addGestureRecognizer(panRegnizer)
     }
   }
 
@@ -29,8 +32,5 @@ extension GraphingViewController: GraphingViewDataSource{
         return getYValue(xAxisValue)
     }
     return nil
-  }
-  func functiontDescription(_ graphingView: GraphingView) -> String {
-    return functionDescription
   }
 }
