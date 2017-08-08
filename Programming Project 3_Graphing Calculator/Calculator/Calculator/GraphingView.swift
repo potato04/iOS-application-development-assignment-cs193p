@@ -16,7 +16,7 @@ protocol GraphingViewDataSource{
 
 class GraphingView: UIView {
   
-  var color: UIColor = UIColor.blue
+  var color: UIColor = UIColor.red
   var axesDrawer: AxesDrawer = AxesDrawer()
   var pointsPerUnit: CGFloat = 50
   
@@ -37,13 +37,22 @@ class GraphingView: UIView {
     axesDrawer.drawAxes(in: rect, origin: graphOrigin, pointsPerUnit: pointsPerUnit)
     //draw graph
     if let source = dataSource {
+      let path = UIBezierPath()
+      
       for x in stride(from: rect.minX, to: rect.maxX, by: 1){
         let xAxisValue = (x-graphOrigin.x)/pointsPerUnit
         if let yAxisValue = source.graphingView(self, xAxisValue: Double(xAxisValue)) {
            let position = transformToViewCoordinate(xy: (x: xAxisValue, y: CGFloat(yAxisValue)))
-          UIRectFill(CGRect(x: position.x, y: position.y, width: 1, height: 1))
+          if x == rect.minX {
+            path.move(to: CGPoint(x: position.x, y: position.y))
+          }else {
+            path.addLine(to: CGPoint(x: position.x, y: position.y))
+          }
         }
       }
+      color.setStroke()
+      path.lineWidth = 1.0
+      path.stroke()
     }
     //draw description
     let text = NSAttributedString(string: dataSource!.functiontDescription(self))
