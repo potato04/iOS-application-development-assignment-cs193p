@@ -103,7 +103,9 @@ struct CalclatorBrain {
         result = (number, resultIsPending ? result.description : command.description, nil)
         
       case .variable(let named):
-        dontAppendingAccmulatorWhenPerformPendingBinaryOperation = true
+        if resultIsPending {
+          dontAppendingAccmulatorWhenPerformPendingBinaryOperation = true
+        }
         result = (variables?[named] ?? 0 , result.description + command.description, nil)
         break
         
