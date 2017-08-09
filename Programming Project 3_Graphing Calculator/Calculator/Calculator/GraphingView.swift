@@ -17,12 +17,17 @@ class GraphingView: UIView {
   
   var color: UIColor = UIColor.red
   var axesDrawer: AxesDrawer = AxesDrawer()
-  var pointsPerUnit: CGFloat = 50
+  var scale: CGFloat = 1 {
+    didSet {
+       setNeedsDisplay()
+    }
+  }
+  var pointsPerUnit: CGFloat {
+    return 50 * scale
+  }
   
   var graphOrigin: CGPoint! {
     didSet{
-      //update ui
-      NSLog("x:%f,y:%f", graphOrigin.x, graphOrigin.y)
       setNeedsDisplay()
     }
   }
@@ -66,7 +71,7 @@ class GraphingView: UIView {
                    y: graphOrigin.y - (xy.y * pointsPerUnit))
   }
   
-  func pan(byReactingTo panRecognizer:UIPanGestureRecognizer){
+  func pan(byReactingTo panRecognizer: UIPanGestureRecognizer) {
     switch panRecognizer.state {
     case .changed: fallthrough
     case .ended:
@@ -76,6 +81,15 @@ class GraphingView: UIView {
         graphOrigin = newGraphOrigin
       }
       panRecognizer.setTranslation(CGPoint.zero, in: self)
+    default: break
+    }
+  }
+  func pinch(byReactingTo pinchRecognize: UIPinchGestureRecognizer) {
+    switch pinchRecognize.state {
+    case .changed: fallthrough
+    case .ended:
+      scale *= pinchRecognize.scale
+      pinchRecognize.scale = 1
     default: break
     }
   }

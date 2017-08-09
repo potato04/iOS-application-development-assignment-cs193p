@@ -15,9 +15,13 @@ class GraphingViewController: UIViewController {
   @IBOutlet weak var graphingView: GraphingView!{
     didSet {
       graphingView.dataSource = self
-      let handler = #selector(GraphingView.pan(byReactingTo:))
-      let panRegnizer = UIPanGestureRecognizer(target: graphingView, action: handler)
-      graphingView.addGestureRecognizer(panRegnizer)
+      
+      let panRecognizer = UIPanGestureRecognizer(target: graphingView, action: #selector(GraphingView.pan(byReactingTo:)))
+      graphingView.addGestureRecognizer(panRecognizer)
+      
+      let pinchRecognizer = UIPinchGestureRecognizer(target: graphingView, action:#selector(GraphingView.pinch(byReactingTo:)))
+      graphingView.addGestureRecognizer(pinchRecognizer)
+      
     }
   }
 
