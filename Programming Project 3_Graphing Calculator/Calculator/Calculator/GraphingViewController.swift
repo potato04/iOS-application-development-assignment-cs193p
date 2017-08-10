@@ -22,6 +22,9 @@ class GraphingViewController: UIViewController {
       let pinchRecognizer = UIPinchGestureRecognizer(target: graphingView, action:#selector(GraphingView.pinch(byReactingTo:)))
       graphingView.addGestureRecognizer(pinchRecognizer)
       
+      let doubleTapRecognizer = UITapGestureRecognizer(target: graphingView, action: #selector(GraphingView.doubleTap(byReactingTo:)))
+      doubleTapRecognizer.numberOfTapsRequired = 2
+      graphingView.addGestureRecognizer(doubleTapRecognizer)
     }
   }
 

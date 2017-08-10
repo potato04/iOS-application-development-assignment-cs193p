@@ -84,12 +84,20 @@ class GraphingView: UIView {
     default: break
     }
   }
-  func pinch(byReactingTo pinchRecognize: UIPinchGestureRecognizer) {
-    switch pinchRecognize.state {
+  func pinch(byReactingTo pinchRecognizer: UIPinchGestureRecognizer) {
+    switch pinchRecognizer.state {
     case .changed: fallthrough
     case .ended:
-      scale *= pinchRecognize.scale
-      pinchRecognize.scale = 1
+      scale *= pinchRecognizer.scale
+      pinchRecognizer.scale = 1
+    default: break
+    }
+  }
+  func doubleTap(byReactingTo tapRecognizer: UITapGestureRecognizer) {
+    switch tapRecognizer.state {
+    case .changed: fallthrough
+    case .ended:
+     graphOrigin = tapRecognizer.location(in: self)
     default: break
     }
   }
