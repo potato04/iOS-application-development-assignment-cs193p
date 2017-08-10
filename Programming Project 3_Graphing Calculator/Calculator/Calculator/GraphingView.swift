@@ -12,16 +12,19 @@ protocol GraphingViewDataSource{
   func graphingView(_ graphingView: GraphingView, xAxisValue: Double) -> Double?
 }
 
-
+@IBDesignable
 class GraphingView: UIView {
   
   var color: UIColor = UIColor.red
   var axesDrawer: AxesDrawer = AxesDrawer()
+  
+  @IBInspectable
   var scale: CGFloat = 1 {
     didSet {
        setNeedsDisplay()
     }
   }
+  
   var pointsPerUnit: CGFloat {
     return 50 * scale
   }
@@ -42,7 +45,12 @@ class GraphingView: UIView {
     graphOrigin = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
   }
   
+  override func prepareForInterfaceBuilder() {
+    graphOrigin = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
+  }
+  
   override func draw(_ rect: CGRect) {
+    NSLog("x:%f, y:%f", graphOrigin.x, graphOrigin.y)
     //draw axes
     axesDrawer.drawAxes(in: rect, origin: graphOrigin, pointsPerUnit: pointsPerUnit)
     //draw graph
