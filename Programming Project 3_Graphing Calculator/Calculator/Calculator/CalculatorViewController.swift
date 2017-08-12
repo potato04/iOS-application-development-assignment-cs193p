@@ -121,6 +121,14 @@ class CalculatorViewController: UIViewController {
       result = brain.evaluateWithErrorReport(using: variables)
     }
   }
+  
+  override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
+    if result.isPending && identifier == "showGraph" {
+      return false
+    }
+    return true
+  }
+  
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     var destnationViewController = segue.destination
     if let navigationController = destnationViewController as? UINavigationController {

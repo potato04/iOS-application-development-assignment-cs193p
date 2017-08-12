@@ -77,7 +77,7 @@
                                                             <color key="titleColor" red="0.25098039220000001" green="0.59999999999999998" blue="0.32156862749999998" alpha="1" colorSpace="calibratedRGB"/>
                                                         </state>
                                                         <connections>
-                                                            <segue destination="oW0-4l-2ng" kind="showDetail" id="VjD-P6-cvz"/>
+                                                            <segue destination="oW0-4l-2ng" kind="showDetail" identifier="showGraph" id="VjD-P6-cvz"/>
                                                         </connections>
                                                     </button>
                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AjA-bm-7eQ">
