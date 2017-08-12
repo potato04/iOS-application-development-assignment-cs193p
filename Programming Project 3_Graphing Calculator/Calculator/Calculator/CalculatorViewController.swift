@@ -136,7 +136,6 @@ class CalculatorViewController: UIViewController {
       }
       let functionDescription = descriptionDisplay.text!.replacingOccurrences(of: "M", with: "X")
         .replacingOccurrences(of: "=", with: "")
-      graphingViewController.functionDescription = "Y = \(functionDescription)"
       graphingViewController.navigationItem.title = "Y = \(functionDescription)"
     
     }

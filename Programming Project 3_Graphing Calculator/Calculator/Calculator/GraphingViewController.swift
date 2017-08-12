@@ -11,7 +11,6 @@ import UIKit
 class GraphingViewController: UIViewController {
   
   var calcFunction: ((Double) -> Double?)?
-  var functionDescription: String = ""
   @IBOutlet weak var graphingView: GraphingView!{
     didSet {
       graphingView.dataSource = self
