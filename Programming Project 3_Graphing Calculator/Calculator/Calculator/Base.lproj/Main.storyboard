@@ -69,7 +69,7 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="A6t-It-YjG">
                                                 <rect key="frame" x="0.0" y="0.0" width="374" height="92.666666666666657"/>
                                                 <subviews>
-                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="DBm-te-U0I">
+                                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="DBm-te-U0I">
                                                         <rect key="frame" x="0.0" y="0.0" width="70.666666666666671" height="92.666666666666657"/>
                                                         <color key="backgroundColor" red="0.87450981139999995" green="0.96470588450000005" blue="0.90588235859999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="22"/>
@@ -437,6 +437,7 @@
                     <connections>
                         <outlet property="descriptionDisplay" destination="2re-vX-5kG" id="f7A-Iu-xcL"/>
                         <outlet property="display" destination="4MV-yB-UHN" id="1wY-RG-mYk"/>
+                        <outlet property="graphButton" destination="DBm-te-U0I" id="ZXO-9r-K9e"/>
                         <outlet property="variablesDisplay" destination="bHX-CS-rLB" id="2ml-yj-a9w"/>
                     </connections>
                 </viewController>
@@ -534,6 +535,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="3HA-3s-uKh"/>
+        <segue reference="VjD-P6-cvz"/>
     </inferredMetricsTieBreakers>
 </document>

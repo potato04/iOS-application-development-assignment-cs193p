@@ -13,10 +13,12 @@ class CalculatorViewController: UIViewController {
   @IBOutlet weak var display: UILabel!
   @IBOutlet weak var descriptionDisplay: UILabel!
   @IBOutlet weak var variablesDisplay: UILabel!
+  @IBOutlet weak var graphButton: UIButton!
   
   override func viewDidLoad() {
     descriptionDisplay.text = " "
     self.splitViewController?.delegate = self
+    graphButton.isEnabled = false
   }
   
   
@@ -38,14 +40,17 @@ class CalculatorViewController: UIViewController {
     didSet {
       if let errorInfo = result.error {
         descriptionDisplay.text = errorInfo
+        graphButton.isEnabled = false
       }else {
         if let accumulator = result.result {
           displayValue = accumulator
         }
         if result.isPending {
           descriptionDisplay.text = result.description + "..."
+          graphButton.isEnabled = false
         } else {
           descriptionDisplay.text =	result.description == " " ? " " : result.description + "="
+          graphButton.isEnabled = true
         }
       }
       
