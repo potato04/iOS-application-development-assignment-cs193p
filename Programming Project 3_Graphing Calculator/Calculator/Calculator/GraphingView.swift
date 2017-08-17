@@ -21,7 +21,8 @@ class GraphingView: UIView {
   @IBInspectable
   var scale: CGFloat = 1 {
     didSet {
-       setNeedsDisplay()
+      UserDefaults.standard.set(scale, forKey: "scale")
+      setNeedsDisplay()
     }
   }
   
@@ -31,6 +32,8 @@ class GraphingView: UIView {
   
   var graphOrigin: CGPoint! {
     didSet{
+      UserDefaults.standard.set(graphOrigin.x, forKey: "originX")
+      UserDefaults.standard.set(graphOrigin.y, forKey: "originY")
       setNeedsDisplay()
     }
   }
@@ -38,19 +41,31 @@ class GraphingView: UIView {
   
   override init(frame: CGRect) {
     super.init(frame: frame)
-    graphOrigin = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
+    initScaleAndOrigin()
   }
   required init?(coder aDecoder: NSCoder) {
     super.init(coder: aDecoder)
-    graphOrigin = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
+    initScaleAndOrigin()
   }
   
   override func prepareForInterfaceBuilder() {
-    graphOrigin = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
+    initScaleAndOrigin()
   }
-  
+  private func initScaleAndOrigin(){
+    if let defaultOriginX = UserDefaults.standard.object(forKey: "originX"), defaultOriginX is CGFloat,
+      let defaultOriginY = UserDefaults.standard.object(forKey: "originY"), defaultOriginY is CGFloat{
+      graphOrigin = CGPoint(x: defaultOriginX as! CGFloat, y: defaultOriginY as! CGFloat)
+    }
+    else {
+      graphOrigin = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
+    }
+    if let defaultScale = UserDefaults.standard.object(forKey: "scale"), defaultScale is CGFloat{
+      scale = defaultScale as! CGFloat
+    }
+  }
   override func draw(_ rect: CGRect) {
-    NSLog("x:%f, y:%f", graphOrigin.x, graphOrigin.y)
+    //save scale and graphOrigin
+    
     //draw axes
     axesDrawer.drawAxes(in: rect, origin: graphOrigin, pointsPerUnit: pointsPerUnit)
     //draw graph
