@@ -16,6 +16,7 @@ class CalculatorViewController: UIViewController {
   
   override func viewDidLoad() {
     descriptionDisplay.text = " "
+    self.splitViewController?.delegate = self
   }
   
   
@@ -147,10 +148,25 @@ class CalculatorViewController: UIViewController {
       graphingViewController.navigationItem.title = "Y = \(functionDescription)"
     
     }
-
-    
-    
   }
-  
+}
+extension CalculatorViewController: UISplitViewControllerDelegate {
+  func splitViewController(_ splitViewController: UISplitViewController, collapseSecondary secondaryViewController: UIViewController, onto primaryViewController: UIViewController) -> Bool {
+    if primaryViewController.contents == self {
+      if let ivc = secondaryViewController.contents as? GraphingViewController, ivc.calcFunction == nil{
+        return true
+      }
+    }
+    return false
+  }
+}
+extension UIViewController{
+  var contents: UIViewController {
+    if let navcon = self as? UINavigationController {
+      return navcon.visibleViewController ?? self
+    }else {
+      return self
+    }
+  }
 }
 
