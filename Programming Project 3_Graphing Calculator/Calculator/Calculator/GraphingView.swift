@@ -29,12 +29,22 @@ class GraphingView: UIView {
   var pointsPerUnit: CGFloat {
     return 50 * scale
   }
+  private var centerOffset:CGPoint = CGPoint(x: 0, y: 0) {
+    didSet{
+      UserDefaults.standard.set(centerOffset.x, forKey: "centerOffsetX")
+      UserDefaults.standard.set(centerOffset.y, forKey: "centerOffsetY")
+    }
+  }
   
   var graphOrigin: CGPoint! {
-    didSet{
-      UserDefaults.standard.set(graphOrigin.x, forKey: "originX")
-      UserDefaults.standard.set(graphOrigin.y, forKey: "originY")
+    get {
+      return CGPoint(x: self.bounds.midX - centerOffset.x,
+                     y: self.bounds.midY - centerOffset.y)
+    }
+    set(newOrigin){
       setNeedsDisplay()
+      centerOffset = CGPoint(x: self.bounds.midX - newOrigin.x,
+                             y: self.bounds.midY - newOrigin.y)
     }
   }
   var dataSource: GraphingViewDataSource?
@@ -52,20 +62,18 @@ class GraphingView: UIView {
     initScaleAndOrigin()
   }
   private func initScaleAndOrigin(){
-    if let defaultOriginX = UserDefaults.standard.object(forKey: "originX"), defaultOriginX is CGFloat,
-      let defaultOriginY = UserDefaults.standard.object(forKey: "originY"), defaultOriginY is CGFloat{
-      graphOrigin = CGPoint(x: defaultOriginX as! CGFloat, y: defaultOriginY as! CGFloat)
+    if let centerOffsetX = UserDefaults.standard.object(forKey: "centerOffsetX"), centerOffsetX is CGFloat,
+      let centerOffsetY = UserDefaults.standard.object(forKey: "centerOffsetY"), centerOffsetY is CGFloat{
+      centerOffset = CGPoint(x: centerOffsetX as! CGFloat, y: centerOffsetY as! CGFloat)
     }
     else {
-      graphOrigin = CGPoint(x: self.bounds.midX, y: self.bounds.midY)
+      centerOffset = CGPoint(x: 0, y: 0)
     }
     if let defaultScale = UserDefaults.standard.object(forKey: "scale"), defaultScale is CGFloat{
       scale = defaultScale as! CGFloat
     }
   }
   override func draw(_ rect: CGRect) {
-    //save scale and graphOrigin
-    
     //draw axes
     axesDrawer.drawAxes(in: rect, origin: graphOrigin, pointsPerUnit: pointsPerUnit)
     //draw graph
@@ -87,6 +95,10 @@ class GraphingView: UIView {
       path.lineWidth = 1.0
       path.stroke()
     }
+  }
+  override func layoutSubviews() {
+    super.layoutSubviews()
+    self.setNeedsDisplay()
   }
   
   private func transformToViewCoordinate(xy:(x:CGFloat,y:CGFloat)) -> CGPoint{
