@@ -8,3 +8,6 @@ iOS application development assignment cs193p
 [3.Programming Project 3: Graphing Calculator](https://github.com/shiwangwang/iOS-application-development-assignment-cs193p/tree/master/Programming%20Project%203_Graphing%20Calculator)  🕐
 
 
+[4.Programming Project 4: Smashtag Mentions](https://github.com/shiwangwang/iOS-application-development-assignment-cs193p/tree/master/Programming%20Project%204_Smashtag%20Mentions)  🕐
+
+
