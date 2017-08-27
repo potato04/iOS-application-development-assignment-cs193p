@@ -23,7 +23,25 @@ class TweetTableViewCell: UITableViewCell {
   }
   
   private func updateUI() {
-    tweetTextLabel.text = tweet?.text
+    if let item = tweet {
+      let tweetText = NSMutableAttributedString(string: item.text)
+      for hashtag in item.hashtags {
+        if hashtag.nsrange.location != NSNotFound {
+          tweetText.addAttributes([NSForegroundColorAttributeName : UIColor.blue], range: hashtag.nsrange)
+        }
+      }
+      for url in item.urls {
+        if url.nsrange.location != NSNotFound {
+          tweetText.addAttributes([NSForegroundColorAttributeName : UIColor.blue], range: url.nsrange)
+        }
+      }
+      for mention in item.userMentions {
+        if mention.nsrange.location != NSNotFound {
+          tweetText.addAttributes([NSForegroundColorAttributeName : UIColor.blue], range: mention.nsrange)
+        }
+      }
+      tweetTextLabel.attributedText = tweetText
+    }
     tweetUserLabel.text = tweet?.user.description
     
     if let profileImageURL = tweet?.user.profileImageURL {
