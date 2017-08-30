@@ -16,7 +16,7 @@ class TweetDetailTableViewController: UITableViewController {
   
   override func viewDidLoad() {
     super.viewDidLoad()
-    tableView.register(UINib(nibName:"TweetDetailImageTableViewCell", bundle:nil), forCellReuseIdentifier: "TweetDetailImageCell")
+    tableView.register(UINib(nibName:"TweetDetailImageTableViewCell", bundle:nil), forCellReuseIdentifier: "ImageTableViewCell")
 //    tableView.estimatedRowHeight = tableView.rowHeight
 //    tableView.rowHeight = UITableViewAutomaticDimension
     
@@ -36,7 +36,7 @@ class TweetDetailTableViewController: UITableViewController {
   
   override func numberOfSections(in tableView: UITableView) -> Int {
     // #warning Incomplete implementation, return the number of sections
-    return 1
+    return 4
   }
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -44,14 +44,11 @@ class TweetDetailTableViewController: UITableViewController {
     case 0: //images
       return tweet.media.count
     case 1: //hashtags
-      //return tweet.hashtags.count
-      return 0
+      return tweet.hashtags.count
     case 2: //users
-      //return tweet.userMentions.count
-      return 0
+      return tweet.userMentions.count
     case 3: //urls
-      //return tweet.urls.count
-      return 0
+      return tweet.urls.count
     default:
       return 0
     }
@@ -60,11 +57,32 @@ class TweetDetailTableViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
     switch indexPath.section {
     case 0: //images
-      let cell = tableView.dequeueReusableCell(withIdentifier: "TweetDetailImageCell", for: indexPath)
+      let cell = tableView.dequeueReusableCell(withIdentifier: "ImageTableViewCell", for: indexPath)
       if let imageCell = cell as? TweetDetailImageTableViewCell {
         imageCell.mediaItem = tweet.media[indexPath.row]
       }
       return cell
+    case 1://hashtags
+      var cell = tableView.dequeueReusableCell(withIdentifier: "MetionsTableViewCell")
+      if cell == nil{
+        cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "MetionsTableViewCell")
+      }
+      cell?.textLabel?.text = tweet.hashtags[indexPath.row].keyword
+      return cell!
+    case 2://users
+      var cell = tableView.dequeueReusableCell(withIdentifier: "MetionsTableViewCell")
+      if cell == nil{
+        cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "MetionsTableViewCell")
+      }
+      cell?.textLabel?.text = tweet.userMentions[indexPath.row].keyword
+      return cell!
+    case 3://urls
+      var cell = tableView.dequeueReusableCell(withIdentifier: "MetionsTableViewCell")
+      if cell == nil{
+        cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "MetionsTableViewCell")
+      }
+      cell?.textLabel?.text = tweet.urls[indexPath.row].keyword
+      return cell!
     default:
       return UITableViewCell()
     }
