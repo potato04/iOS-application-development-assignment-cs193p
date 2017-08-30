@@ -32,12 +32,12 @@ class TweetTableViewCell: UITableViewCell {
       }
       for url in item.urls {
         if url.nsrange.location != NSNotFound {
-          tweetText.addAttributes([NSForegroundColorAttributeName : UIColor.blue], range: url.nsrange)
+          tweetText.addAttributes([NSForegroundColorAttributeName : UIColor.yellow], range: url.nsrange)
         }
       }
       for mention in item.userMentions {
         if mention.nsrange.location != NSNotFound {
-          tweetText.addAttributes([NSForegroundColorAttributeName : UIColor.blue], range: mention.nsrange)
+          tweetText.addAttributes([NSForegroundColorAttributeName : UIColor.brown], range: mention.nsrange)
         }
       }
       tweetTextLabel.attributedText = tweetText
