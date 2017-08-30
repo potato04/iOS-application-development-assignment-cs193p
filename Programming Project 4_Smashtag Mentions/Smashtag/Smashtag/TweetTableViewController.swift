@@ -31,7 +31,8 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
   
   private func twitterRequest() -> Twitter.Request? {
     if let query = searchText, !query.isEmpty {
-      return Twitter.Request(search: "\(query) -filter:safe -filter:retweets", count:100)
+      //return Twitter.Request(search: "\(query) -filter:safe -filter:retweets", count:100)
+      return Twitter.Request(search: "\(query)", count:100)
     }
     return nil
   }
@@ -65,7 +66,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     super.viewDidLoad()
     tableView.estimatedRowHeight = tableView.rowHeight
     tableView.rowHeight = UITableViewAutomaticDimension
-    //searchText = "#stanford"
+    searchText = "@Miyukichacha1"
   }
   
   @IBOutlet weak var searchTextField: UITextField! {
@@ -79,6 +80,14 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
       searchText = searchTextField.text
     }
     return true
+  }
+  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if segue.identifier == "showDetails", let destination = segue.destination as? TweetDetailTableViewController{
+      if let cell = sender as? UITableViewCell, let indexPath = tableView.indexPath(for: cell) {
+        destination.tweet = tweets[indexPath.section][indexPath.row]
+      }
+    }
   }
   
   
@@ -108,7 +117,6 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
   override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     return "\(tweets.count - section)"
   }
-  
   /*
    // Override to support conditional editing of the table view.
    override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
