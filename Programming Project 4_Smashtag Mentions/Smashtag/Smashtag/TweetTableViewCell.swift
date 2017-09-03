@@ -32,7 +32,7 @@ class TweetTableViewCell: UITableViewCell {
       }
       for url in item.urls {
         if url.nsrange.location != NSNotFound {
-          tweetText.addAttributes([NSForegroundColorAttributeName : UIColor.yellow], range: url.nsrange)
+          tweetText.addAttributes([NSForegroundColorAttributeName : UIColor.purple], range: url.nsrange)
         }
       }
       for mention in item.userMentions {

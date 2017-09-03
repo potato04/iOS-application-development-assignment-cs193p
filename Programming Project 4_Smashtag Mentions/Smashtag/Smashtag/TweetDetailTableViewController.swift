@@ -11,20 +11,42 @@ import Twitter
 
 class TweetDetailTableViewController: UITableViewController {
   
-  var tweet: Twitter.Tweet!
-  var sectinType:[String] = ["Images","Hashtags","Users","Urls"]
+  var tweet: Twitter.Tweet! {
+    didSet {
+      items = [
+        0: ["Images" : [Item]()],
+        1: ["Hashtags" : [Item]()],
+        2: ["Users" : [Item]()],
+        3: ["Urls" : [Item]()],
+      ]
+      for media in tweet.media {
+        items[0]?["Images"]?.append(Item.Image(media))
+      }
+      for hashtag in tweet.hashtags {
+        items[1]?["Hashtags"]?.append(.Mention(hashtag.keyword))
+      }
+      for user in tweet.userMentions {
+        items[2]?["Users"]?.append(.Mention(user.keyword))
+      }
+      for url in tweet.urls {
+        items[3]?["Urls"]?.append(.Mention(url.keyword))
+      }
+      title = tweet.user.name
+    }
+  }
+  
+  private var items: [Int: [String : [Item]]] = [:]
+  
+  private enum Item {
+    case Image(MediaItem)
+    case Mention(String)
+  }
   
   override func viewDidLoad() {
     super.viewDidLoad()
     tableView.register(UINib(nibName:"TweetDetailImageTableViewCell", bundle:nil), forCellReuseIdentifier: "ImageTableViewCell")
-//    tableView.estimatedRowHeight = tableView.rowHeight
-//    tableView.rowHeight = UITableViewAutomaticDimension
-    
-    // Uncomment the following line to preserve selection between presentations
-    // self.clearsSelectionOnViewWillAppear = false
-    
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem()
+    //    tableView.estimatedRowHeight = tableView.rowHeight
+    //    tableView.rowHeight = UITableViewAutomaticDimension
   }
   
   override func didReceiveMemoryWarning() {
@@ -35,68 +57,41 @@ class TweetDetailTableViewController: UITableViewController {
   // MARK: - Table view data source
   
   override func numberOfSections(in tableView: UITableView) -> Int {
-    // #warning Incomplete implementation, return the number of sections
-    return 4
+    return items.count
   }
   
   override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-    switch section {
-    case 0: //images
-      return tweet.media.count
-    case 1: //hashtags
-      return tweet.hashtags.count
-    case 2: //users
-      return tweet.userMentions.count
-    case 3: //urls
-      return tweet.urls.count
-    default:
-      return 0
-    }
+    return (items[section]?.first?.value.count)!
   }
   
   override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-    switch indexPath.section {
-    case 0: //images
-      let cell = tableView.dequeueReusableCell(withIdentifier: "ImageTableViewCell", for: indexPath)
-      if let imageCell = cell as? TweetDetailImageTableViewCell {
-        imageCell.mediaItem = tweet.media[indexPath.row]
-      }
+    let item = (items[indexPath.section]?.first?.value[indexPath.row])!
+    switch item {
+    case .Image(let mediaItem):
+      let cell = tableView.dequeueReusableCell(withIdentifier: "ImageTableViewCell", for: indexPath) as! TweetDetailImageTableViewCell
+      cell.mediaItem = mediaItem
       return cell
-    case 1://hashtags
+    case .Mention(let keyword):
       var cell = tableView.dequeueReusableCell(withIdentifier: "MetionsTableViewCell")
-      if cell == nil{
-        cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "MetionsTableViewCell")
+      if cell == nil {
+        cell = UITableViewCell(style: .default, reuseIdentifier: "MetionsTableViewCell")
       }
-      cell?.textLabel?.text = tweet.hashtags[indexPath.row].keyword
+      cell?.textLabel?.text = keyword
       return cell!
-    case 2://users
-      var cell = tableView.dequeueReusableCell(withIdentifier: "MetionsTableViewCell")
-      if cell == nil{
-        cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "MetionsTableViewCell")
-      }
-      cell?.textLabel?.text = tweet.userMentions[indexPath.row].keyword
-      return cell!
-    case 3://urls
-      var cell = tableView.dequeueReusableCell(withIdentifier: "MetionsTableViewCell")
-      if cell == nil{
-        cell = UITableViewCell(style: UITableViewCellStyle.default, reuseIdentifier: "MetionsTableViewCell")
-      }
-      cell?.textLabel?.text = tweet.urls[indexPath.row].keyword
-      return cell!
-    default:
-      return UITableViewCell()
     }
   }
   override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-    if indexPath.section == 0 {
-      return self.tableView.bounds.width / CGFloat(tweet.media[indexPath.row].aspectRatio)
-    } else {
+    let item = (items[indexPath.section]?.first?.value[indexPath.row])!
+    switch item {
+    case .Image(let mediaItem):
+      return self.tableView.bounds.width / CGFloat(mediaItem.aspectRatio)
+    default:
       return UITableViewAutomaticDimension
     }
   }
   override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
     if self.tableView(tableView, numberOfRowsInSection: section) > 0 {
-      return sectinType[section]
+      return items[section]?.first?.key
     }
     return nil
   }
