@@ -95,6 +95,19 @@ class TweetDetailTableViewController: UITableViewController {
     }
     return nil
   }
+  override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    let item = (items[indexPath.section]?.first?.value[indexPath.row])!
+    switch item {
+    case .Image(let mediaItem):
+      break
+    case .Mention(let keyword):
+      performSegue(withIdentifier: "showSearch", sender: keyword)
+    }
+  }
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    let controller = segue.destination as! TweetTableViewController
+    controller.searchText = sender as! String
+  }
   
   /*
    // Override to support conditional editing of the table view.
