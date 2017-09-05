@@ -104,13 +104,13 @@ class TweetDetailTableViewController: UITableViewController {
       break
     case .Hashtag(let keyword), .User(let keyword):
       performSegue(withIdentifier: "showSearch", sender: keyword)
-    default:
-      break
+    case .Url(let url):
+      UIApplication.shared.open(URL(string: url)!, options: [:], completionHandler: nil)
     }
   }
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
     let controller = segue.destination as! TweetTableViewController
-    controller.searchText = sender as! String
+    controller.searchText = sender as? String
   }
   
   /*
