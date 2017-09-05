@@ -20,16 +20,16 @@ class TweetDetailTableViewController: UITableViewController {
         3: ["Urls" : [Item]()],
       ]
       for media in tweet.media {
-        items[0]?["Images"]?.append(Item.Image(media))
+        items[0]?["Images"]?.append(.Image(media))
       }
       for hashtag in tweet.hashtags {
-        items[1]?["Hashtags"]?.append(.Mention(hashtag.keyword))
+        items[1]?["Hashtags"]?.append(.Hashtag(hashtag.keyword))
       }
       for user in tweet.userMentions {
-        items[2]?["Users"]?.append(.Mention(user.keyword))
+        items[2]?["Users"]?.append(.User(user.keyword))
       }
       for url in tweet.urls {
-        items[3]?["Urls"]?.append(.Mention(url.keyword))
+        items[3]?["Urls"]?.append(.Url(url.keyword))
       }
       title = tweet.user.name
     }
@@ -39,7 +39,9 @@ class TweetDetailTableViewController: UITableViewController {
   
   private enum Item {
     case Image(MediaItem)
-    case Mention(String)
+    case Hashtag(String)
+    case User(String)
+    case Url(String)
   }
   
   override func viewDidLoad() {
@@ -71,7 +73,7 @@ class TweetDetailTableViewController: UITableViewController {
       let cell = tableView.dequeueReusableCell(withIdentifier: "ImageTableViewCell", for: indexPath) as! TweetDetailImageTableViewCell
       cell.mediaItem = mediaItem
       return cell
-    case .Mention(let keyword):
+    case .Hashtag(let keyword), .Url(let keyword), .User(let keyword):
       var cell = tableView.dequeueReusableCell(withIdentifier: "MetionsTableViewCell")
       if cell == nil {
         cell = UITableViewCell(style: .default, reuseIdentifier: "MetionsTableViewCell")
@@ -98,10 +100,12 @@ class TweetDetailTableViewController: UITableViewController {
   override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
     let item = (items[indexPath.section]?.first?.value[indexPath.row])!
     switch item {
-    case .Image(let mediaItem):
+    case .Image( _):
       break
-    case .Mention(let keyword):
+    case .Hashtag(let keyword), .User(let keyword):
       performSegue(withIdentifier: "showSearch", sender: keyword)
+    default:
+      break
     }
   }
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
