@@ -101,7 +101,7 @@ class TweetDetailTableViewController: UITableViewController {
     let item = (items[indexPath.section]?.first?.value[indexPath.row])!
     switch item {
     case .Image( _):
-      break
+      performSegue(withIdentifier: "showImage", sender: self)
     case .Hashtag(let keyword), .User(let keyword):
       performSegue(withIdentifier: "showSearch", sender: keyword)
     case .Url(let url):
@@ -109,8 +109,18 @@ class TweetDetailTableViewController: UITableViewController {
     }
   }
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-    let controller = segue.destination as! TweetTableViewController
-    controller.searchText = sender as? String
+    if let identifier = segue.identifier {
+      if identifier == "showImage" {
+        let controller = segue.destination as! TweetImageScrollViewController
+        let indexPath = self.tableView.indexPathForSelectedRow //optional, to get from any UIButton for example
+        let currentCell = self.tableView.cellForRow(at: indexPath!) as! TweetDetailImageTableViewCell
+        controller.image = currentCell.tweetImage.image
+      } else if identifier == "showSearch" {
+        let controller = segue.destination as! TweetTableViewController
+        controller.searchText = sender as? String
+      }
+    }
+    
   }
   
   /*

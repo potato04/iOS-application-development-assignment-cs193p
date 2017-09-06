@@ -127,11 +127,63 @@
                     </tableView>
                     <connections>
                         <segue destination="JUi-vv-c17" kind="show" identifier="showSearch" id="lm5-3x-aht"/>
+                        <segue destination="yXM-kc-Tfd" kind="show" identifier="showImage" id="FiJ-Zy-NPH"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ZM2-oW-IJ9" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1657" y="178"/>
+        </scene>
+        <!--Tweet Image Scroll View Controller-->
+        <scene sceneID="Klu-Np-v4J">
+            <objects>
+                <viewController id="yXM-kc-Tfd" customClass="TweetImageScrollViewController" customModule="Smashtag" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Art-8M-o7T"/>
+                        <viewControllerLayoutGuide type="bottom" id="4f6-KL-0b2"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="D1O-zD-d0r">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dwE-dm-7wZ">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="U1Z-VA-yhM">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                    </imageView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="U1Z-VA-yhM" secondAttribute="bottom" id="fjP-1N-78h"/>
+                                    <constraint firstItem="U1Z-VA-yhM" firstAttribute="leading" secondItem="dwE-dm-7wZ" secondAttribute="leading" id="oAo-fd-vdm"/>
+                                    <constraint firstAttribute="trailing" secondItem="U1Z-VA-yhM" secondAttribute="trailing" id="pub-jG-908"/>
+                                    <constraint firstItem="U1Z-VA-yhM" firstAttribute="top" secondItem="dwE-dm-7wZ" secondAttribute="top" id="tpe-BM-Bhj"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="delegate" destination="yXM-kc-Tfd" id="mgX-JO-XPf"/>
+                                </connections>
+                            </scrollView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="dwE-dm-7wZ" firstAttribute="top" secondItem="D1O-zD-d0r" secondAttribute="top" id="8ja-Cv-7Sg"/>
+                            <constraint firstAttribute="trailing" secondItem="dwE-dm-7wZ" secondAttribute="trailing" id="bPO-tZ-nk8"/>
+                            <constraint firstItem="4f6-KL-0b2" firstAttribute="top" secondItem="dwE-dm-7wZ" secondAttribute="bottom" id="j25-hd-Yda"/>
+                            <constraint firstItem="dwE-dm-7wZ" firstAttribute="leading" secondItem="D1O-zD-d0r" secondAttribute="leading" id="oer-gv-3Dr"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="U1Z-VA-yhM" id="Cv9-rM-doQ"/>
+                        <outlet property="imageViewBottomConstraint" destination="fjP-1N-78h" id="uRV-ul-ys1"/>
+                        <outlet property="imageViewLeadingConstraint" destination="oAo-fd-vdm" id="P7d-uI-QPV"/>
+                        <outlet property="imageViewTopConstraint" destination="tpe-BM-Bhj" id="QHD-Y8-rlP"/>
+                        <outlet property="imageViewTrailingConstraint" destination="pub-jG-908" id="9rL-um-4FS"/>
+                        <outlet property="scrollView" destination="dwE-dm-7wZ" id="t35-57-yvW"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="N34-EH-C3X" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2689" y="178"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="PI8-mi-4UK">
@@ -153,6 +205,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="lm5-3x-aht"/>
+        <segue reference="ZkY-xm-lwy"/>
     </inferredMetricsTieBreakers>
 </document>
