@@ -25,6 +25,8 @@ class TweetDetailTableViewController: UITableViewController {
       for hashtag in tweet.hashtags {
         items[1]?["Hashtags"]?.append(.Hashtag(hashtag.keyword))
       }
+      //include the user who posted the tweet
+      items[2]?["Users"]?.append(.User("@\(tweet.user.screenName)"))
       for user in tweet.userMentions {
         items[2]?["Users"]?.append(.User(user.keyword))
       }
