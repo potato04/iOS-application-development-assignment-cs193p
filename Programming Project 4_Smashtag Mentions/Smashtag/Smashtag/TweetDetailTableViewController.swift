@@ -104,8 +104,10 @@ class TweetDetailTableViewController: UITableViewController {
     switch item {
     case .Image( _):
       performSegue(withIdentifier: "showImage", sender: self)
-    case .Hashtag(let keyword), .User(let keyword):
+    case .Hashtag(let keyword):
       performSegue(withIdentifier: "showSearch", sender: keyword)
+    case .User(let keyword):
+      performSegue(withIdentifier: "showSearch", sender: "from:\(keyword) OR \(keyword)")
     case .Url(let url):
       UIApplication.shared.open(URL(string: url)!, options: [:], completionHandler: nil)
     }
@@ -114,7 +116,7 @@ class TweetDetailTableViewController: UITableViewController {
     if let identifier = segue.identifier {
       if identifier == "showImage" {
         let controller = segue.destination as! TweetImageScrollViewController
-        let indexPath = self.tableView.indexPathForSelectedRow //optional, to get from any UIButton for example
+        let indexPath = self.tableView.indexPathForSelectedRow
         let currentCell = self.tableView.cellForRow(at: indexPath!) as! TweetDetailImageTableViewCell
         controller.image = currentCell.tweetImage.image
       } else if identifier == "showSearch" {
