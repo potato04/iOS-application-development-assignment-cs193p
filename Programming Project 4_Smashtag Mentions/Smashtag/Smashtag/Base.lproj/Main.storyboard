@@ -95,7 +95,13 @@
                             <outlet property="delegate" destination="JUi-vv-c17" id="37T-LF-oTC"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="Q3s-9r-aCc"/>
+                    <navigationItem key="navigationItem" id="Q3s-9r-aCc">
+                        <barButtonItem key="rightBarButtonItem" title="Home" id="cMa-7n-X5Q">
+                            <connections>
+                                <action selector="goBack:" destination="JUi-vv-c17" id="BUg-Vo-9lU"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <refreshControl key="refreshControl" opaque="NO" multipleTouchEnabled="YES" contentMode="center" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" id="B1M-wE-x7K">
                         <rect key="frame" x="0.0" y="0.0" width="1000" height="1000"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -104,6 +110,7 @@
                         </connections>
                     </refreshControl>
                     <connections>
+                        <outlet property="goBackButton" destination="cMa-7n-X5Q" id="nAa-Af-dF3"/>
                         <outlet property="searchTextField" destination="v1k-t9-JeJ" id="vTN-jJ-c7o"/>
                     </connections>
                 </tableViewController>
@@ -282,6 +289,6 @@
         <image name="defaultImage" width="1199" height="803"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="lm5-3x-aht"/>
+        <segue reference="ZkY-xm-lwy"/>
     </inferredMetricsTieBreakers>
 </document>

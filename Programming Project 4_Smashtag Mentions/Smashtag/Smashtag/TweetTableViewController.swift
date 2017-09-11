@@ -11,6 +11,8 @@ import Twitter
 
 class TweetTableViewController: UITableViewController, UITextFieldDelegate {
   
+  @IBOutlet weak var goBackButton: UIBarButtonItem!
+  
   private var tweets = [Array<Twitter.Tweet>](){
     didSet {
       print(tweets)
@@ -61,6 +63,10 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     }
   }
   
+  @IBAction func goBack(_ sender: Any) {
+    let controller =  navigationController?.viewControllers[0]
+    self.navigationController?.popToViewController(controller!, animated: true)
+  }
   
   @IBAction func refresh(_ sender: Any) {
     searchForTweets()

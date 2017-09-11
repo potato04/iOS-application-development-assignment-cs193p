@@ -25,7 +25,7 @@ class RecentSearchTermsStore {
       return
     }
     recentSearchTerms.insert(term!, at: 0)
-    if recentSearchTerms.count > 5 {
+    if recentSearchTerms.count > 100 {
       recentSearchTerms.removeLast()
     }
     UserDefaults.standard.set(recentSearchTerms, forKey: "RecentSearchTermsStore")
