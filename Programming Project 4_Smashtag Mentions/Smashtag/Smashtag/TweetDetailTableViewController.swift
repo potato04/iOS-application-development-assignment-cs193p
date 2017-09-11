@@ -109,7 +109,8 @@ class TweetDetailTableViewController: UITableViewController {
     case .User(let keyword):
       performSegue(withIdentifier: "showSearch", sender: "from:\(keyword) OR \(keyword)")
     case .Url(let url):
-      UIApplication.shared.open(URL(string: url)!, options: [:], completionHandler: nil)
+      //UIApplication.shared.open(URL(string: url)!, options: [:], completionHandler: nil)
+      performSegue(withIdentifier: "showUrl", sender: url)
     }
   }
   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -122,6 +123,9 @@ class TweetDetailTableViewController: UITableViewController {
       } else if identifier == "showSearch" {
         let controller = segue.destination as! TweetTableViewController
         controller.searchText = sender as? String
+      } else if identifier == "showUrl" {
+        let controller = segue.destination as! TweetWebViewViewController
+        controller.url = sender as! String
       }
     }
     
