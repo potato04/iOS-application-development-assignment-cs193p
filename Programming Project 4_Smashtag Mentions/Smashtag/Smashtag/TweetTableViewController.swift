@@ -19,8 +19,6 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
     }
   }
   
-  private var recentStore = RecentSearchTermsStore()
-  
   var searchText: String? {
     didSet {
       searchTextField?.text = searchText
@@ -30,7 +28,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
       tableView.reloadData()
       searchForTweets()
       title = searchText
-      recentStore.addTerms(term: searchText)
+      RecentSearchTermsStore.sharedStore.addTerms(term: searchText)
     }
   }
   

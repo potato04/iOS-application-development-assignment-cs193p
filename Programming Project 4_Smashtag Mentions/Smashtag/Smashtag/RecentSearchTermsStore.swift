@@ -10,13 +10,13 @@ import Foundation
 
 class RecentSearchTermsStore {
   
-  var recentSearchTerms:[String]!
+  static let sharedStore = RecentSearchTermsStore()
   
-  init() {
+  private(set) var recentSearchTerms: [String] = []
+  
+  private init() {
     if let terms = UserDefaults.standard.object(forKey: "RecentSearchTermsStore") as? [String] {
       recentSearchTerms = terms
-    } else {
-      recentSearchTerms = [String]()
     }
   }
   
@@ -28,6 +28,13 @@ class RecentSearchTermsStore {
     if recentSearchTerms.count > 100 {
       recentSearchTerms.removeLast()
     }
+    UserDefaults.standard.set(recentSearchTerms, forKey: "RecentSearchTermsStore")
+  }
+  func removeTerms(index: Int) {
+    if index < 0 {
+      return
+    }
+    recentSearchTerms.remove(at: index)
     UserDefaults.standard.set(recentSearchTerms, forKey: "RecentSearchTermsStore")
   }
   
