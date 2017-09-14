@@ -154,7 +154,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ooG-Fy-kbs" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="689" y="1086"/>
+            <point key="canvasLocation" x="689" y="1904"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="wrc-mg-6Ts">
@@ -171,7 +171,90 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="YGa-hj-YTg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-180" y="1085"/>
+            <point key="canvasLocation" x="-180" y="1901"/>
+        </scene>
+        <!--images-->
+        <scene sceneID="Pi3-X7-AC4">
+            <objects>
+                <navigationController id="ovg-MT-GDq" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="images" image="images" id="Gwz-nI-tf4"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="1tn-P0-QrR">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="p6j-X3-wyP" kind="relationship" relationship="rootViewController" id="Oiz-bH-zSn"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bNb-2t-gbe" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-180" y="1049"/>
+        </scene>
+        <!--Tweet Images Collection View Controller-->
+        <scene sceneID="PlC-yw-KRc">
+            <objects>
+                <collectionViewController id="p6j-X3-wyP" customClass="TweetImagesCollectionViewController" customModule="Smashtag" customModuleProvider="target" sceneMemberID="viewController">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="J81-61-s3W">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="ock-49-xdm">
+                            <size key="itemSize" width="200" height="200"/>
+                            <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                            <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                            <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                        </collectionViewFlowLayout>
+                        <cells>
+                            <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="TweetImageCollectionViewCell" id="iGc-wK-a3p" customClass="TweetImageCollectionViewCell" customModule="Smashtag" customModuleProvider="target">
+                                <rect key="frame" x="88" y="0.0" width="200" height="200"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eMq-KA-qq9">
+                                            <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                                        </imageView>
+                                    </subviews>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="eMq-KA-qq9" firstAttribute="leading" secondItem="iGc-wK-a3p" secondAttribute="leading" id="RIX-As-IDX"/>
+                                    <constraint firstItem="eMq-KA-qq9" firstAttribute="top" secondItem="iGc-wK-a3p" secondAttribute="top" id="jiX-b6-zW1"/>
+                                    <constraint firstAttribute="trailing" secondItem="eMq-KA-qq9" secondAttribute="trailing" id="kFt-uc-Q0p"/>
+                                    <constraint firstAttribute="bottom" secondItem="eMq-KA-qq9" secondAttribute="bottom" id="nsP-cV-0bh"/>
+                                </constraints>
+                                <size key="customSize" width="200" height="200"/>
+                                <connections>
+                                    <outlet property="imageView" destination="eMq-KA-qq9" id="vhW-0v-8VF"/>
+                                    <segue destination="JUi-vv-c17" kind="show" identifier="showTweet" id="hlZ-Hu-XMF"/>
+                                </connections>
+                            </collectionViewCell>
+                        </cells>
+                        <connections>
+                            <outlet property="dataSource" destination="p6j-X3-wyP" id="M3z-PE-GDq"/>
+                            <outlet property="delegate" destination="p6j-X3-wyP" id="DfD-QK-hVD"/>
+                        </connections>
+                    </collectionView>
+                    <navigationItem key="navigationItem" id="dcL-jZ-V85">
+                        <nil key="title"/>
+                        <textField key="titleView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search Images" textAlignment="natural" minimumFontSize="17" id="y8K-CK-yBL">
+                            <rect key="frame" x="113" y="7" width="150" height="30"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            <nil key="textColor"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" returnKeyType="search"/>
+                            <connections>
+                                <outlet property="delegate" destination="p6j-X3-wyP" id="oGC-OW-naL"/>
+                            </connections>
+                        </textField>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="searchTextField" destination="y8K-CK-yBL" id="U98-K5-99U"/>
+                    </connections>
+                </collectionViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="fDd-ag-6mZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="689" y="1048"/>
         </scene>
         <!--Tab Bar Controller-->
         <scene sceneID="AFO-6s-h3Z">
@@ -184,12 +267,13 @@
                     </tabBar>
                     <connections>
                         <segue destination="j3j-Ca-ckX" kind="relationship" relationship="viewControllers" id="x2T-gE-yfV"/>
+                        <segue destination="ovg-MT-GDq" kind="relationship" relationship="viewControllers" id="jxX-Aw-EXz"/>
                         <segue destination="5Ot-ga-WzX" kind="relationship" relationship="viewControllers" id="EAD-ux-bpc"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="KSQ-QZ-2nN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1310" y="568"/>
+            <point key="canvasLocation" x="-1511" y="1201"/>
         </scene>
         <!--Tweet Detail Table View Controller-->
         <scene sceneID="Zaz-W8-Rr2">
@@ -321,8 +405,9 @@
     </scenes>
     <resources>
         <image name="defaultImage" width="1199" height="803"/>
+        <image name="images" width="25" height="25"/>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="ZkY-xm-lwy"/>
+        <segue reference="hlZ-Hu-XMF"/>
     </inferredMetricsTieBreakers>
 </document>
