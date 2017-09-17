@@ -1,4 +1,4 @@
-2.Programming Project 4: Smashtag Mentions
+4.Programming Project 4: Smashtag Mentions
 
 ![image](https://github.com/shiwangwang/iOS-application-development-assignment-cs193p/raw/master/images/p4-1.png)
 

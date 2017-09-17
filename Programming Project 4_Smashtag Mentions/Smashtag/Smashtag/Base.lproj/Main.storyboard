@@ -194,7 +194,7 @@
         <scene sceneID="PlC-yw-KRc">
             <objects>
                 <collectionViewController id="p6j-X3-wyP" customClass="TweetImagesCollectionViewController" customModule="Smashtag" customModuleProvider="target" sceneMemberID="viewController">
-                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" misplaced="YES" dataMode="prototypes" id="J81-61-s3W">
+                    <collectionView key="view" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" id="J81-61-s3W">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -206,7 +206,7 @@
                         </collectionViewFlowLayout>
                         <cells>
                             <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="TweetImageCollectionViewCell" id="iGc-wK-a3p" customClass="TweetImageCollectionViewCell" customModule="Smashtag" customModuleProvider="target">
-                                <rect key="frame" x="88" y="0.0" width="200" height="200"/>
+                                <rect key="frame" x="87.5" y="0.0" width="200" height="200"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
@@ -238,7 +238,7 @@
                     <navigationItem key="navigationItem" id="dcL-jZ-V85">
                         <nil key="title"/>
                         <textField key="titleView" opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Search Images" textAlignment="natural" minimumFontSize="17" id="y8K-CK-yBL">
-                            <rect key="frame" x="113" y="7" width="150" height="30"/>
+                            <rect key="frame" x="112.5" y="7" width="150" height="30"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <nil key="textColor"/>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
