@@ -104,10 +104,8 @@ class TweetDetailTableViewController: UITableViewController {
     switch item {
     case .Image( _):
       performSegue(withIdentifier: "showImage", sender: self)
-    case .Hashtag(let keyword):
+    case .Hashtag(let keyword),.User(let keyword):
       performSegue(withIdentifier: "showSearch", sender: keyword)
-    case .User(let keyword):
-      performSegue(withIdentifier: "showSearch", sender: "from:\(keyword) OR \(keyword)")
     case .Url(let url):
       //UIApplication.shared.open(URL(string: url)!, options: [:], completionHandler: nil)
       performSegue(withIdentifier: "showUrl", sender: url)
