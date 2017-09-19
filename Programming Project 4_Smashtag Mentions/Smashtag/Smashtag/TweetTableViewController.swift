@@ -49,9 +49,7 @@ class TweetTableViewController: UITableViewController, UITextFieldDelegate {
         DispatchQueue.main.async {
           if request == self?.lastTwitterRequest {
             self?.tweets.insert(newTweets, at: 0)
-            DispatchQueue.main.async {
-              self?.tableView.insertSections([0], with: .fade)
-            }
+            self?.tableView.insertSections([0], with: .fade)
           }
           self?.refreshControl?.endRefreshing()
         }
