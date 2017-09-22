@@ -11,14 +11,19 @@ import CoreData
 import Twitter
 
 class Mention: NSManagedObject {
-  class func findOrCreateMention(for tweet: Tweet, withKeyword keyword: String, andSearchTerm searchTerm: String, andType  type: String, in context: NSManagedObjectContext) throws -> Mention {
+  class func initOrIncrementMentionCount(for tweet: Tweet, withKeyword keyword: String, andSearchTerm searchTerm: String, andType  type: String, in context: NSManagedObjectContext) throws -> Mention {
     let request: NSFetchRequest<Mention> = Mention.fetchRequest()
-    request.predicate = NSPredicate(format: "keyword =[cd] %@ AND searchTerm =[cd] %@ AND type =[cd] %@",keyword,searchTerm,type)
+    request.predicate = NSPredicate(format: "keyword =[cd] %@ AND searchTerm =[cd] %@ AND type =[cd] %@", keyword, searchTerm, type)
     
     do {
       let matches = try context.fetch(request)
       if matches.count > 0 {
         assert(matches.count == 1, "Tweet.findOrCreateTweet -- database inconsistency")
+        
+        if !(matches[0].tweets?.contains(tweet))! {
+          matches[0].count = matches[0].count + 1
+          matches[0].addToTweets(tweet)
+        }
         return matches[0]
       }
     } catch {
@@ -29,8 +34,9 @@ class Mention: NSManagedObject {
     mention.keyword = keyword
     mention.searchTerm = searchTerm
     mention.type = type
-    mention.tweet = tweet
-
+    mention.addToTweets(tweet)
+    mention.count = 1
+    
     return mention
   }
 }

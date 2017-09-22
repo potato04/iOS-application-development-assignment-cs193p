@@ -50,29 +50,14 @@ class RecentSearchTermsTableViewController: UITableViewController {
     }
   }
   
-  /*
-   // Override to support rearranging the table view.
-   override func tableView(_ tableView: UITableView, moveRowAt fromIndexPath: IndexPath, to: IndexPath) {
-   
-   }
-   */
   
-  /*
-   // Override to support conditional rearranging of the table view.
-   override func tableView(_ tableView: UITableView, canMoveRowAt indexPath: IndexPath) -> Bool {
-   // Return false if you do not want the item to be re-orderable.
-   return true
-   }
-   */
+  // MARK: Navigation
   
-  /*
-   // MARK: - Navigation
-   
-   // In a storyboard-based application, you will often want to do a little preparation before navigation
-   override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-   // Get the new view controller using segue.destinationViewController.
-   // Pass the selected object to the new view controller.
-   }
-   */
-  
+  override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+    if let identifier = segue.identifier, identifier == "ShowSmashPopularityTableView",
+      let cell = sender as? UITableViewCell,
+      let tweetersTVC = segue.destination as? SmashPopularityTableViewController {
+      tweetersTVC.searchTerm = cell.textLabel?.text
+    }
+  }
 }

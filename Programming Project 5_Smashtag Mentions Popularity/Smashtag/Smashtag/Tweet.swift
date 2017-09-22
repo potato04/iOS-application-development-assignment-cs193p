@@ -29,10 +29,10 @@ class Tweet: NSManagedObject {
       
       // check mentions
       for hasttag in twitterInfo.hashtags {
-        _ = try? Mention.findOrCreateMention(for: tweet, withKeyword: hasttag.keyword, andSearchTerm: searchTerm, andType: "Hashtags", in: context)
+        _ = try? Mention.initOrIncrementMentionCount(for: tweet, withKeyword: hasttag.keyword, andSearchTerm: searchTerm, andType: "Hashtags", in: context)
       }
       for user in twitterInfo.userMentions {
-        _ = try? Mention.findOrCreateMention(for: tweet, withKeyword: user.keyword, andSearchTerm: searchTerm, andType: "Users", in: context)
+        _ = try? Mention.initOrIncrementMentionCount(for: tweet, withKeyword: user.keyword, andSearchTerm: searchTerm, andType: "Users", in: context)
       }
       return tweet
     } catch {
