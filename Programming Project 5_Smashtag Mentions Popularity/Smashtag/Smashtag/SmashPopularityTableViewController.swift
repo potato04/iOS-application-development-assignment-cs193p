@@ -30,7 +30,7 @@ class SmashPopularityTableViewController: FetchedResultsTableViewController {
       fetchedResultsController = NSFetchedResultsController<Mention>(
         fetchRequest: request,
         managedObjectContext: context,
-        sectionNameKeyPath: nil,
+        sectionNameKeyPath: "type",
         cacheName: nil
       )
       fetchedResultsController?.delegate = self
