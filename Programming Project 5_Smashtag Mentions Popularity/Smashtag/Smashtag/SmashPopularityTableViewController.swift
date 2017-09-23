@@ -21,7 +21,7 @@ class SmashPopularityTableViewController: FetchedResultsTableViewController {
   private func updateUI() {
     if let context = container?.viewContext, searchTerm != nil {
       let request: NSFetchRequest<Mention> = Mention.fetchRequest()
-      request.predicate = NSPredicate(format: "searchTerm = %@", searchTerm!)
+      request.predicate = NSPredicate(format: "searchTerm = %@ AND count > 1", searchTerm!)
       request.sortDescriptors = [
         NSSortDescriptor(key: "count", ascending: false),
         NSSortDescriptor(key: "keyword", ascending: true,selector: #selector(NSString.localizedCaseInsensitiveCompare(_:)))
