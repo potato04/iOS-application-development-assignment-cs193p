@@ -39,4 +39,34 @@ class Tweet: NSManagedObject {
       throw error
     }
   }
+  class func findOrCreateTweets(matching tweets: [Twitter.Tweet], with searchTerm: String, in context: NSManagedObjectContext) throws -> [Tweet] {
+    let identifiers = tweets.map{return $0.identifier}
+    let request: NSFetchRequest<Tweet> = Tweet.fetchRequest()
+    request.predicate = NSPredicate(format: "unique IN %@ AND ANY mentions.searchTerm = %@", identifiers, searchTerm)
+    do {
+      var newTweets = [Tweet]()
+      let existsTweets = try context.fetch(request)
+      let existsIdentifiers = Set(existsTweets.flatMap{$0.unique})
+      let newIdentifiers = Set(identifiers).subtracting(existsIdentifiers)
+      for identifier in newIdentifiers {
+        if let twitterInfo = (tweets.filter{$0.identifier == identifier}).first {
+          let tweet = Tweet(context: context)
+          tweet.unique = twitterInfo.identifier
+          tweet.text = twitterInfo.text
+          tweet.created = twitterInfo.created as NSDate
+          // check mentions
+          for hasttag in twitterInfo.hashtags {
+            _ = try? Mention.initOrIncrementMentionCount(for: tweet, withKeyword: hasttag.keyword, andSearchTerm: searchTerm, andType: "Hashtags", in: context)
+          }
+          for user in twitterInfo.userMentions {
+            _ = try? Mention.initOrIncrementMentionCount(for: tweet, withKeyword: user.keyword, andSearchTerm: searchTerm, andType: "Users", in: context)
+          }
+          newTweets.append(tweet)
+        }
+      }
+      return newTweets
+    } catch {
+      throw error
+    }
+  }
 }

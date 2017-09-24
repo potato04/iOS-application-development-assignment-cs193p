@@ -23,9 +23,11 @@ class SmashTweetTableViewController: TweetTableViewController {
   private func updateDatabase(with tweets: [Twitter.Tweet]) {
     print("starting databse load")
     container?.performBackgroundTask{ [weak self] context in
-      for twitterInfo in tweets {
-       _ = try? Tweet.findOrCreateTweet(matching: twitterInfo, with: (self?.searchText)!, in: context)
-      }
+//      for twitterInfo in tweets {
+//       _ = try? Tweet.findOrCreateTweet(matching: twitterInfo, with: (self?.searchText)!, in: context)
+//      }
+      
+      _ = try? Tweet.findOrCreateTweets(matching: tweets, with: (self?.searchText)!, in: context)
       try? context.save()
       print("done loading database")
       self?.printDatabaseStatistics()
