@@ -37,5 +37,4 @@ class RecentSearchTermsStore {
     recentSearchTerms.remove(at: index)
     UserDefaults.standard.set(recentSearchTerms, forKey: "RecentSearchTermsStore")
   }
-  
 }

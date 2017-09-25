@@ -69,4 +69,16 @@ class Tweet: NSManagedObject {
       throw error
     }
   }
+  class func deleteAllTweetsWhichHaveNoMention(in context: NSManagedObjectContext){
+    let request: NSFetchRequest<Tweet> = Tweet.fetchRequest()
+    request.predicate = NSPredicate(format: "mentions.@count == 0")
+    do {
+      if let tweets = try? context.fetch(request) {
+        for tweet in tweets {
+          context.delete(tweet)
+        }
+        try? context.save()
+      }
+    }
+  }
 }

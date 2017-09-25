@@ -39,4 +39,16 @@ class Mention: NSManagedObject {
     
     return mention
   }
+  class func deleteAllMentions(exclude searchTerm: [String], in context: NSManagedObjectContext){
+    let request: NSFetchRequest<Mention> = Mention.fetchRequest()
+    request.predicate = NSPredicate(format: "NOT( searchTerm IN %@)", searchTerm)
+    do {
+      if let mentions = try? context.fetch(request) {
+        for mention in mentions {
+          context.delete(mention)
+        }
+        try? context.save()
+      }
+    }
+  }
 }
