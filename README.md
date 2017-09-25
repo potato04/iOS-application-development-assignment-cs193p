@@ -10,7 +10,7 @@ iOS application development assignment cs193p
 
 [4.Programming Project 4: Smashtag Mentions](https://github.com/shiwangwang/iOS-application-development-assignment-cs193p/tree/master/Programming%20Project%204_Smashtag%20Mentions)  ✅
 
-[5.Programming Project 5: Smashtag Mentions Popularity](https://github.com/shiwangwang/iOS-application-development-assignment-cs193p/tree/master/Programming%20Project%205_Smashtag%20Mentions%20Popularity)  🕐
+[5.Programming Project 5: Smashtag Mentions Popularity](https://github.com/shiwangwang/iOS-application-development-assignment-cs193p/tree/master/Programming%20Project%205_Smashtag%20Mentions%20Popularity)  ✅
 
 
 
